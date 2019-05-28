@@ -1,0 +1,15 @@
+[Unit]
+Description=Node-red service for its YunoHost app
+After=network.target
+
+[Service]
+Type=simple
+User=__APP__
+Group=__APP__
+WorkingDirectory=__FINALPATH__
+ExecStartPre=__NODEJS__
+Environment="PATH=__ENV_PATH__"
+ExecStart=__FINALPATH__/bin/node-red-pi -p __PORT__ -u __FINALPATH__/data >> /var/log/__APP__/__APP__.log 2>&1
+
+[Install]
+WantedBy=multi-user.target
