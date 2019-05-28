@@ -45,7 +45,7 @@ L'application peut-elle être utilisée par plusieurs utilisateurs? Non.
 
 ## Liens
 
- * Signaler un bug: https://github.com/tituspijean/nodered_ynh/issues
+ * Signaler un bug: https://github.com/YunoHost-Apps/nodered_ynh/issues
  * Site de l'application: https://nodered.org/
  * Dépôt de l'application principale: https://github.com/node-red/node-red
  * Site web YunoHost: https://yunohost.org/
@@ -56,11 +56,11 @@ Informations pour les développeurs
 ----------------
 
 **Seulement si vous voulez utiliser une branche de test pour le codage, au lieu de fusionner directement dans la banche principale.**
-Merci de faire vos pull request sur la [branche testing](https://github.com/tituspijean/nodered_ynh/tree/testing).
+Merci de faire vos pull request sur la [branche testing](https://github.com/YunoHost-Apps/nodered_ynh/tree/testing).
 
 Pour essayer la branche testing, procédez comme suit.
 ```
-sudo yunohost app install https://github.com/tituspijean/nodered_ynh/tree/testing --debug
+sudo yunohost app install https://github.com/YunoHost-Apps/nodered_ynh/tree/testing --debug
 ou
-sudo yunohost app upgrade nodered_ynh -u https://github.com/tituspijean/nodered_ynh/tree/testing --debug
+sudo yunohost app upgrade nodered_ynh -u https://github.com/YunoHost-Apps/nodered_ynh/tree/testing --debug
 ```
