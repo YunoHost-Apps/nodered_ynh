@@ -1,6 +1,6 @@
 {
     "name": "Node-RED",
-    "id": "nodered_ynh",
+    "id": "nodered",
     "packaging_format": 1,
     "description": {
         "en": "Node-RED package for YunoHost.",
