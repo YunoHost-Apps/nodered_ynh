@@ -151,14 +151,13 @@ mkdir -p $final_path/data
 #=================================================
 ynh_script_progression --message="Configuring a systemd service..." --time --weight=1
 
+# Set the systemd service settings
+ynh_replace_string "__PORT__" "$port" "../conf/systemd.service"
+ynh_replace_string "__NODEJS__" "$nodejs_version" "../conf/systemd.service"
+ynh_replace_string "__ENV_PATH__" "$PATH" "../conf/systemd.service"
+
 # Create a dedicated systemd config
 ynh_add_systemd_config
-
-# Set the systemd service settings
-ynh_replace_string "__PORT__" "$port" "/etc/systemd/system/$app.service"
-ynh_replace_string "__NODEJS__" "$nodejs_use_version" "/etc/systemd/system/$app.service"
-ynh_replace_string "__ENV_PATH__" "$PATH" "/etc/systemd/system/$app.service"
-systemctl daemon-reload
 
 #=================================================
 # GENERIC FINALIZATION
