@@ -15,9 +15,9 @@
 		setup_root=1
 		setup_nourl=0
 		setup_private=1
-		setup_public=1
-		upgrade=0
-		upgrade=0	from_commit=CommitHash
+		setup_public=0 #Considering the sensitive actions this app can do, I prefer to have it private
+		upgrade=1
+		upgrade=0	from_commit=567fc9435804add272fa4ae48a7cf1ec5f173d2d
 		backup_restore=1
 		multi_instance=1
 		incorrect_path=1
@@ -44,4 +44,3 @@ Notification=none
 	; commit=CommitHash
 		name=Name and date of the commit.
 		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&language=fr&is_public=1&password=pass&port=666&
-
