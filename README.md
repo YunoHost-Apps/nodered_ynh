@@ -32,6 +32,10 @@ Add plugins to Node-RED, like [Home-Assistant](https://github.com/YunoHost-Apps/
 
 ## YunoHost specific features
 
+#### Private app
+
+Since Node-Red can handle sensitive automation, the app is always installed in private mode.
+
 #### Multi-users support
 
 Are LDAP and HTTP auth supported? No.
@@ -41,7 +45,6 @@ Can the app be used by multiple users? No.
 
 * x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/nodered%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/)
 * ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/nodered%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/nodered/)
-* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/ci/logs/nodered%20%28Apps%29.svg)](https://ci-stretch.nohost.me/ci/apps/nodered/)
 
 ## Links
 

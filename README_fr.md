@@ -3,7 +3,7 @@
 [![Integration level](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered)  
 [![Install Node-RED with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=nodered)
 
-*[Read this readme in english.](./README.md)* 
+*[Read this readme in english.](./README.md)*
 
 > *Ce package vous permet d'installer Node-RED rapidement et simplement sur un serveur Yunohost.  
 Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
@@ -32,16 +32,19 @@ La configuration, et l'installation de plugins tels que pour [Home-Assistant](ht
 
 ## Caractéristiques spécifiques YunoHost
 
+#### Application privée
+
+Puisque les automatisations gérées par Node-Red peuvent être sensibles, l'application est systématiquement installée en mode privé. 
+
 #### Support multi-utilisateurs
 
-L'authentification LDAP et HTTP est-elle prise en charge? Non.
-L'application peut-elle être utilisée par plusieurs utilisateurs? Non.
+* L'authentification LDAP et HTTP est-elle prise en charge? Non.
+* L'application peut-elle être utilisée par plusieurs utilisateurs? Non.
 
 #### Supported architectures
 
 * x86-64b - [![Build Status](https://ci-apps.yunohost.org/ci/logs/nodered%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/)
 * ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/nodered%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/nodered/)
-* Jessie x86-64b - [![Build Status](https://ci-stretch.nohost.me/ci/logs/nodered%20%28Apps%29.svg)](https://ci-stretch.nohost.me/ci/apps/nodered/)
 
 ## Liens
 
