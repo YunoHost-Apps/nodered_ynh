@@ -7,6 +7,7 @@
 #=================================================
 
 source _common.sh
+source ynh_exec_as
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -116,13 +117,23 @@ then
 fi
 
 #=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Making sure dedicated system user exists..." --time --weight=1
+
+# Create a dedicated user (if not existing)
+ynh_system_user_create --username=$app --home_dir=$final_path
+
+#=================================================
 # Install through npm
 #=================================================
 ynh_script_progression --message="Installing node-red..." --time --weight=2
 
+chown -R $app: $final_path
+
 pushd $final_path
 ynh_use_nodejs
-npm install --production
+exec_as $app env PATH=$PATH npm install --production
 popd
 
 #=================================================
@@ -132,14 +143,6 @@ ynh_script_progression --message="Upgrading nginx web server configuration..." -
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --time --weight=1
-
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # PHP-FPM CONFIGURATION
