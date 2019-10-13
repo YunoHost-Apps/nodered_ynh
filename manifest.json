@@ -3,14 +3,14 @@
     "id": "nodered",
     "packaging_format": 1,
     "description": {
-        "en": "Node-RED package for YunoHost.",
-        "fr": "Paquet Node-RED pour YunoHost."
+        "en": "Flow-based programming for the Internet of Things.",
+        "fr": "Programmation par flux de données pour l'Internet des objets."
     },
-    "version": "1.0~ynh1",
+    "version": "1.0.1~ynh1",
     "url": "https://nodered.org",
     "license": "apache2",
     "maintainer": {
-        "name": "Titus PiJean",
+        "name": "tituspijean",
         "email": "tituspijean@outlook.com"
     },
     "requirements": {
