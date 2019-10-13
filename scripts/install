@@ -79,7 +79,7 @@ ynh_app_setting_set --app=$app --key=port --value=$port
 #=================================================
 # Use Helper instead of package from the repo
 
-ynh_install_nodejs 10
+ynh_install_nodejs $nodejs_version
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -101,7 +101,7 @@ ynh_script_progression --message="Installing node-red..." --time --weight=2
 
 pushd $final_path
 ynh_use_nodejs
-npm install --production -g
+npm install --production
 popd
 
 #=================================================

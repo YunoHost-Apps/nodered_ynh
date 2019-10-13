@@ -81,6 +81,10 @@ ynh_restore_file --origin_path="/etc/php/7.0/fpm/pool.d/$app.conf"
 #=================================================
 # SPECIFIC RESTORATION
 #=================================================
+# INSTALL NODEJS
+#=================================================
+
+ynh_install_nodejs $nodejs_version
 
 #=================================================
 # RESTORE SYSTEMD
