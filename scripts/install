@@ -148,6 +148,9 @@ ynh_add_fpm_config
 # SPECIFIC SETUP
 #=================================================
 mkdir -p $final_path/data
+cp $final_path/settings.js $final_path/data/settings.js
+ynh_replace_string "//httpRoot: '/red'," "httpRoot: '$path_url'," "$final_path/data/settings.js"
+ynh_replace_string "//ui: { path: "ui" }," "ui: { path: "/ui/" }," "$final_path/data/settings.js"
 
 #=================================================
 # SETUP SYSTEMD
