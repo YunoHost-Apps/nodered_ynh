@@ -87,8 +87,10 @@ fi
 #=================================================
 # SPECIFIC MODIFICATIONS
 #=================================================
-# ...
+# ALTERED NODERED SETTINGS FILE
 #=================================================
+
+ynh_replace_string "httpRoot: '$old_path'," "httpRoot: '$new_path'," "$final_path/data/settings.js"
 
 #=================================================
 # GENERIC FINALISATION
