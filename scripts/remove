@@ -90,7 +90,9 @@ fi
 #=================================================
 
 # Remove from npm
-sudo npm uninstall node-red -g
+# If multiple instances, it will break the others
+# Need a way to count
+#npm uninstall node-red -g
 
 # Remove the log files
 ynh_secure_remove --file="/var/log/$app/"
