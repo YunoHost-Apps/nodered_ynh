@@ -50,12 +50,6 @@ elif [ "$is_public" = "No" ]; then
 	is_public=0
 fi
 
-# If db_name doesn't exist, create it
-if [ -z "$db_name" ]; then
-	db_name=$(ynh_sanitize_dbid --db_name=$app)
-	ynh_app_setting_set --app=$app --key=db_name --value=$db_name
-fi
-
 # If final_path doesn't exist, create it
 if [ -z "$final_path" ]; then
 	final_path=/var/www/$app
@@ -77,18 +71,6 @@ ynh_clean_setup () {
 ynh_abort_if_errors
 
 #=================================================
-# CHECK THE PATH
-#=================================================
-
-# Normalize the URL path syntax
-# N.B. : this is for app installations before YunoHost 2.7
-# where this value might be something like /foo/ or foo/
-# instead of /foo ....
-# If nobody installed your app before 2.7, then you may
-# safely remove this line
-path_url=$(ynh_normalize_url_path --path_url=$path_url)
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -100,7 +82,6 @@ ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app
 #=================================================
 # INSTALL NODEJS
 #=================================================
-# Use Helper instead of package from the repo
 
 ynh_install_nodejs $nodejs_version
 
@@ -143,14 +124,6 @@ ynh_script_progression --message="Upgrading nginx web server configuration..." -
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
-
-#=================================================
-# PHP-FPM CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading php-fpm configuration..." --time --weight=1
-
-# Create a dedicated php-fpm config
-ynh_add_fpm_config
 
 #=================================================
 # SPECIFIC UPGRADE
