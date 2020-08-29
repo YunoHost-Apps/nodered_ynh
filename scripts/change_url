@@ -90,7 +90,7 @@ fi
 # ALTERED NODERED SETTINGS FILE
 #=================================================
 
-ynh_replace_string "httpRoot: '$old_path'," "httpRoot: '$new_path'," "$final_path/data/settings.js"
+ynh_replace_string --match_string="httpRoot: '$old_path'," --replace_string="httpRoot: '$new_path'," --target_file="$final_path/data/settings.js"
 
 #=================================================
 # GENERIC FINALISATION
