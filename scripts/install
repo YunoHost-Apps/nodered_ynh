@@ -33,14 +33,6 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
-### About --weight and --time
-### ynh_script_progression will show to your final users the progression of each scripts.
-### In order to do that, --weight will represent the relative time of execution compared to the other steps in the script.
-### --time is a packager option, it will show you the execution time since the previous call.
-### This option should be removed before releasing your app.
-### Use the execution time, given by --time, to estimate the weight of a step.
-### A common way to do it is to set a weight equal to the execution time in second +1.
-### The execution time is given for the duration since the previous call. So the weight should be applied to this previous call.
 ynh_script_progression --message="Validating installation parameters..." --time --weight=1
 
 final_path=/opt/yunohost/$app
@@ -64,11 +56,6 @@ ynh_app_setting_set --app=$app --key=path --value=$path_url
 #=================================================
 ynh_script_progression --message="Configuring firewall..." --time --weight=1
 
-### Use these lines if you have to open a port for the application
-### `ynh_find_port` will find the first available port starting from the given port.
-### If you're not using these lines:
-###		- Remove the section "CLOSE A PORT" in the remove script
-
 # Find a free port
 port=$(ynh_find_port --port=8095)
 # Open this port
@@ -78,7 +65,6 @@ ynh_app_setting_set --app=$app --key=port --value=$port
 #=================================================
 # INSTALL NODEJS
 #=================================================
-# Use Helper instead of package from the repo
 
 ynh_install_nodejs $nodejs_version
 
@@ -86,10 +72,6 @@ ynh_install_nodejs $nodejs_version
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression --message="Setting up source files..." --time --weight=1
-
-### `ynh_setup_source` is used to install an app from a zip or tar.gz file,
-### downloaded from an upstream source, like a git repository.
-### `ynh_setup_source` use the file conf/app.src
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
@@ -119,8 +101,6 @@ popd
 # NGINX CONFIGURATION
 #=================================================
 ynh_script_progression --message="Configuring nginx web server..." --time --weight=1
-
-### `ynh_add_nginx_config` will use the file conf/nginx.conf
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -152,10 +132,6 @@ ynh_add_systemd_config
 # SECURE FILES AND DIRECTORIES
 #=================================================
 
-### For security reason, any app should set the permissions to root: before anything else.
-### Then, if write authorization is needed, any access should be given only to directories
-### that really need such authorization.
-
 # Set permissions to app files
 chown -R $app: $final_path
 
@@ -164,14 +140,6 @@ chown -R $app: $final_path
 #=================================================
 ynh_script_progression --message="Configuring log rotation..." --time --weight=1
 
-### `ynh_use_logrotate` is used to configure a logrotate configuration for the logs of this app.
-### Use this helper only if there is effectively a log file for this app.
-### If you're not using this helper:
-###		- Remove the section "BACKUP LOGROTATE" in the backup script
-###		- Remove also the section "REMOVE LOGROTATE CONFIGURATION" in the remove script
-###		- As well as the section "RESTORE THE LOGROTATE CONFIGURATION" in the restore script
-###		- And the section "SETUP LOGROTATE" in the upgrade script
-
 # Use logrotate to manage application logfile(s)
 ynh_use_logrotate
 
@@ -179,30 +147,12 @@ ynh_use_logrotate
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
-### `yunohost service add` is a CLI yunohost command to add a service in the admin panel.
-### You'll find the service in the 'services' section of YunoHost admin panel.
-### This CLI command would be useless if the app does not have any services (systemd or sysvinit)
-### If you're not using these lines:
-###		- You can remove these files in conf/.
-###		- Remove the section "REMOVE SERVICE FROM ADMIN PANEL" in the remove script
-###		- As well as the section "ADVERTISE SERVICE IN ADMIN PANEL" in the restore script
-
 yunohost service add $app --log "/var/log/$app/$app.log"
-# if using yunohost version 3.2 or more in the 'manifest.json', a description can be added
-#yunohost service add $app --description "$app daemon for XXX" --log "/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --time --weight=1
-
-### `ynh_systemd_action` is used to start a systemd service for an app.
-### Only needed if you have configure a systemd service
-### If you're not using these lines:
-###		- Remove the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the backup script
-###		- As well as the section "START SYSTEMD SERVICE" in the restore script
-###		- As well as the section"STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the upgrade script
-###		- And the section "STOP SYSTEMD SERVICE" and "START SYSTEMD SERVICE" in the change_url script
 
 # Start a systemd service
 ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
