@@ -96,7 +96,7 @@ popd
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring nginx web server..." --time --weight=30
+ynh_script_progression --message="Configuring nginx web server..." --weight=30
 
 # Create a dedicated nginx config
 ynh_add_nginx_config
@@ -106,8 +106,8 @@ ynh_add_nginx_config
 #=================================================
 mkdir -p $final_path/data
 cp $final_path/settings.js $final_path/data/settings.js
-ynh_replace_string "//httpRoot: '/red'," "httpRoot: '$path_url'," "$final_path/data/settings.js"
-ynh_replace_string "//ui: { path: "ui" }," "ui: { path: "/ui/" }," "$final_path/data/settings.js"
+ynh_replace_string --match_string="//httpRoot: '/red'," --replace_string="httpRoot: '$path_url'," --target_file="$final_path/data/settings.js"
+ynh_replace_string --match_string="//ui: { path: "ui" }," --replace_string="ui: { path: "/ui/" }," --target_file="$final_path/data/settings.js"
 
 #=================================================
 # SETUP SYSTEMD
@@ -115,9 +115,9 @@ ynh_replace_string "//ui: { path: "ui" }," "ui: { path: "/ui/" }," "$final_path/
 ynh_script_progression --message="Configuring a systemd service..." --weight=3
 
 # Set the systemd service settings
-ynh_replace_string "__PORT__" "$port" "../conf/systemd.service"
-ynh_replace_string "__NODEJS__" "$nodejs_version" "../conf/systemd.service"
-ynh_replace_string "__ENV_PATH__" "$PATH" "../conf/systemd.service"
+ynh_replace_string --match_string="__PORT__" --replace_string="$port" --target_file="../conf/systemd.service"
+ynh_replace_string --match_string="__NODEJS__" --replace_string="$nodejs_version" --target_file="../conf/systemd.service"
+ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
