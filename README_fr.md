@@ -11,7 +11,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 ## Vue d'ensemble
 Programmation par flux de données pour l'Internet des objets.
 
-**Version incluse:** 1.1.3
+**Version incluse :** 1.1.3
 
 ## Captures d'écran
 
@@ -28,7 +28,7 @@ La configuration, et l'installation de plugins tels que pour [Home-Assistant](ht
 
 ## Documentation
 
- * [Documentation officielle](https://nodered.org/docs/)
+ * Documentation officielle : https://nodered.org/docs/
 
 ## Caractéristiques spécifiques YunoHost
 

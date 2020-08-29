@@ -124,8 +124,8 @@ ynh_add_nginx_config
 if [ ! -f $final_path/data/settings.js ]; then
     cp $final_path/settings.js $final_path/data/settings.js
 fi
-ynh_replace_string "//httpRoot: '/red'," "httpRoot: '$path_url'," "$final_path/data/settings.js"
-ynh_replace_string "//ui: { path: "ui" }," "ui: { path: "/ui/" }," "$final_path/data/settings.js"
+ynh_replace_string --match_string="//httpRoot: '/red'," --replace_string="httpRoot: '$path_url'," --target_file="$final_path/data/settings.js"
+ynh_replace_string --match_string="//ui: { path: "ui" }," --replace_string="ui: { path: "/ui/" }," --target_file="$final_path/data/settings.js"
 
 #=================================================
 # SETUP LOGROTATE
