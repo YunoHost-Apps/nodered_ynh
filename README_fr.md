@@ -28,7 +28,7 @@ La configuration, et l'installation de plugins tels que pour [Home-Assistant](ht
 
 ## Documentation
 
- * Documentation officielle : https://nodered.org/docs/
+* Documentation officielle : https://nodered.org/docs/
 
 ## Caractéristiques spécifiques YunoHost
 
