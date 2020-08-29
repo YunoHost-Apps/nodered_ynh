@@ -28,7 +28,7 @@ Add plugins to Node-RED, like [Home-Assistant](https://github.com/YunoHost-Apps/
 
 ## Documentation
 
- * Official documentation: https://nodered.org/docs/
+* Official documentation: https://nodered.org/docs/
 
 ## YunoHost specific features
 
@@ -38,8 +38,8 @@ Since Node-Red can handle sensitive automation, the app is always installed in p
 
 #### Multi-users support
 
-Are LDAP and HTTP auth supported? **No**
-Can the app be used by multiple users? **No**
+* Are LDAP and HTTP auth supported? **No**
+* Can the app be used by multiple users? **No**
 
 #### Supported architectures
 
