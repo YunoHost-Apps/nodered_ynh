@@ -58,14 +58,6 @@ ynh_script_progression --message="Removing nginx web server configuration..." --
 ynh_remove_nginx_config
 
 #=================================================
-# REMOVE PHP-FPM CONFIGURATION
-#=================================================
-ynh_script_progression --message="Removing php-fpm configuration..." --time --weight=1
-
-# Remove the dedicated php-fpm config
-ynh_remove_fpm_config
-
-#=================================================
 # REMOVE LOGROTATE CONFIGURATION
 #=================================================
 ynh_script_progression --message="Removing logrotate configuration..." --time --weight=1
