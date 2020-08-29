@@ -1,6 +1,6 @@
 # Node-RED for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration\nodered.svg)](https://dash.yunohost.org/appci/app/nodered)  
+[![Integration level](https://dash.yunohost.org/integration\nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)  
 [![Install nodered with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=nodered)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -11,7 +11,7 @@ If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to
 ## Overview
 Flow-based programming for the Internet of Things.
 
-**Shipped version:** 1.0.4
+**Shipped version:** 1.1.3
 
 ## Screenshots
 
@@ -38,8 +38,8 @@ Since Node-Red can handle sensitive automation, the app is always installed in p
 
 #### Multi-users support
 
-Are LDAP and HTTP auth supported? No.
-Can the app be used by multiple users? No.
+Are LDAP and HTTP auth supported? **No**
+Can the app be used by multiple users? **No**
 
 #### Supported architectures
 
@@ -55,10 +55,8 @@ Can the app be used by multiple users? No.
 
 ---
 
-Developers info
-----------------
+## Developers info
 
-**Only if you want to use a testing branch for coding, instead of merging directly into master.**
 Please do your pull request to the [testing branch](https://github.com/YunoHost-Apps/nodered_ynh/tree/testing).
 
 To try the testing branch, please proceed like that.
