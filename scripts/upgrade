@@ -7,7 +7,6 @@
 #=================================================
 
 source _common.sh
-source ynh_exec_as
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -52,7 +51,7 @@ fi
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=1
+ynh_script_progression --message="Backing up Node-RED before upgrading (may take a while)..." --weight=1
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -101,7 +100,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # Install through npm
 #=================================================
-ynh_script_progression --message="Installing node-red..." --weight=30
+ynh_script_progression --message="Installing Node-RED..." --weight=30
 
 chown -R $app: $final_path
 
@@ -113,9 +112,9 @@ popd
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Upgrading nginx web server configuration..." --weight=1
+ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
 
-# Create a dedicated nginx config
+# Create a dedicated NGINX config
 ynh_add_nginx_config
 
 #=================================================
@@ -179,7 +178,7 @@ ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$ap
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading nginx web server..." --weight=1
+ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
 ynh_systemd_action --service_name=nginx --action=reload
 
@@ -187,4 +186,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression --message="Upgrade of Node-RED completed" --last
