@@ -62,6 +62,19 @@ ynh_clean_setup () {
 # Exit if an error occurs during the execution of the script
 ynh_abort_if_errors
 
+
+#=================================================
+# CLOSING PORT
+#=================================================
+
+# In older versions of the package, the port serving the webui was opened to anyone,
+# allowing direct access to Node-RED... let's close it.
+if yunohost firewall list | grep -q "\- $port$"
+then
+        ynh_script_progression --message="Closing port $port..."
+        ynh_exec_warn_less yunohost firewall disallow TCP $port
+fi
+
 #=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
