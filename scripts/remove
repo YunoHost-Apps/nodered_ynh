@@ -81,11 +81,6 @@ fi
 # REMOVE THE LOG FILE
 #=================================================
 
-# Remove from npm
-# If multiple instances, it will break the others
-# Need a way to count
-#npm uninstall node-red -g
-
 # Remove the log files
 ynh_secure_remove --file="/var/log/$app/"
 
