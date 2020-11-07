@@ -53,7 +53,6 @@ ynh_script_progression --message="Finding an available port..." --weight=1
 
 # Find a free port
 port=$(ynh_find_port --port=1880)
-# Open this port
 ynh_app_setting_set --app=$app --key=port --value=$port
 
 #=================================================
@@ -87,8 +86,8 @@ ynh_script_progression --message="Installing Node-RED..." --weight=2
 chown -R $app: $final_path
 
 pushd $final_path
-ynh_use_nodejs
-exec_as $app env PATH=$PATH npm install --production
+	ynh_use_nodejs
+	exec_as $app env PATH=$PATH npm install --production
 popd
 
 #=================================================
