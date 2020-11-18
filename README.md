@@ -11,7 +11,7 @@ If you don't have YunoHost, please see [here](https://yunohost.org/#/install) to
 ## Overview
 Flow-based programming for the Internet of Things.
 
-**Shipped version:** 1.2.4
+**Shipped version:** 1.2.5
 
 ## Screenshots
 
