@@ -170,6 +170,12 @@ ynh_add_systemd_config
 chown -R $app: $final_path
 
 #=================================================
+# ADVERTISE SERVICE IN ADMIN PANEL
+#=================================================
+
+yunohost service add $app --log="/var/log/$app/$app.log"
+
+#=================================================
 # SETUP SSOWAT
 #=================================================
 ynh_script_progression --message="Upgrading SSOwat configuration..." --weight=1
