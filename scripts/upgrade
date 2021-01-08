@@ -173,19 +173,7 @@ chown -R $app: $final_path
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
-yunohost service add $app --log="/var/log/$app/$app.log"
-
-#=================================================
-# SETUP SSOWAT
-#=================================================
-ynh_script_progression --message="Upgrading SSOwat configuration..." --weight=1
-
-# Make app public if necessary
-if [ $is_public -eq 1 ]
-then
-	# unprotected_uris allows SSO credentials to be passed anyway
-	ynh_app_setting_set --app=$app --key=unprotected_uris --value="/"
-fi
+yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
 
 #=================================================
 # START SYSTEMD SERVICE
