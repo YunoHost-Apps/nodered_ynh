@@ -3,10 +3,10 @@
     "id": "nodered",
     "packaging_format": 1,
     "description": {
-        "en": "Flow-based programming for the Internet of Things.",
-        "fr": "Programmation par flux de données pour l'Internet des objets."
+        "en": "Flow-based programming for the Internet of Things",
+        "fr": "Programmation par flux de données pour l'Internet des objets"
     },
-    "version": "1.2.6~ynh1",
+    "version": "1.2.7~ynh1",
     "url": "https://nodered.org",
     "license": "Apache-2.0",
     "maintainer": {
@@ -14,7 +14,7 @@
         "email": "tituspijean@outlook.com"
     },
     "requirements": {
-        "yunohost": ">= 3.5"
+        "yunohost": ">= 3.8.1"
     },
     "multi_instance": true,
     "services": [
