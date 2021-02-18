@@ -1,7 +1,7 @@
 # Node-RED pour YunoHost
 
 [![Integration level](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)  
-[![Install Node-RED with YunoHost](https://install-app.yunohost.org/install-with-yunohost.png)](https://install-app.yunohost.org/?app=nodered)
+[![Install Node-RED with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
 *[Read this readme in english.](./README.md)*
 
@@ -11,7 +11,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 ## Vue d'ensemble
 Programmation par flux de données pour l'Internet des objets.
 
-**Version incluse :** 1.2.6
+**Version incluse :** 1.2.7
 
 ## Captures d'écran
 
