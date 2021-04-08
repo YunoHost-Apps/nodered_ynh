@@ -43,8 +43,8 @@ Since Node-Red can handle sensitive automation, the app is always installed in p
 
 #### Supported architectures
 
-* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/nodered%20%28Apps%29.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/)
-* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/nodered%20%28Apps%29.svg)](https://ci-apps-arm.yunohost.org/ci/apps/nodered/)
+* x86-64 - [![Build Status](https://ci-apps.yunohost.org/ci/logs/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+* ARMv8-A - [![Build Status](https://ci-apps-arm.yunohost.org/ci/logs/nodered.svg)](https://ci-apps-arm.yunohost.org/ci/apps/nodered/)
 
 ## Links
 
