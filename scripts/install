@@ -87,7 +87,7 @@ chown -R $app: $final_path
 
 pushd $final_path
 	ynh_use_nodejs
-	exec_as $app env PATH=$PATH npm install --production
+	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install --production
 popd
 
 #=================================================
