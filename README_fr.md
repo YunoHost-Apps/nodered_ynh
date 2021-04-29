@@ -11,7 +11,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 ## Vue d'ensemble
 Programmation par flux de données pour l'Internet des objets.
 
-**Version incluse :** 1.3.3
+**Version incluse :** 1.3.4
 
 ## Captures d'écran
 
