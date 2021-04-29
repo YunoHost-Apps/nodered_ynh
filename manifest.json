@@ -32,6 +32,11 @@
                 "type": "path",
                 "example": "/nodered",
                 "default": "/nodered"
+            },
+            {
+                "name": "admin",
+                "type": "user",
+                "example": "johndoe"
             }
         ]
     }
