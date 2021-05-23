@@ -170,7 +170,7 @@ ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$ap
 ynh_script_progression --message="Configuring permissions..." --weight=1
 
 ynh_permission_update --permission="main" --remove="all_users" --add="$admin"
-ynh_permission_create --permission="nodes" --url="$nodes_path" --allowed="visitors" --label="nodes endpoints"
+ynh_permission_create --permission="nodes" --url="$nodes_url" --allowed="visitors" --label="nodes endpoints"
 ynh_permission_create --permission="ui" --url="/ui" --allowed="$admin" --label="dashboard"
 
 #=================================================
