@@ -25,6 +25,13 @@ path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
 app=$YNH_APP_INSTANCE_NAME
 
+if [ $path_url = "/" ]
+then
+	nodes_url="/red-nodes"
+else
+	nodes_url="$path_url/red-nodes"
+fi
+
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
@@ -103,7 +110,14 @@ ynh_add_nginx_config
 #=================================================
 mkdir -p $final_path/data
 cp $final_path/settings.js $final_path/data/settings.js
-ynh_replace_string --match_string="//httpRoot: '/red'," --replace_string="httpRoot: '$path_url'," --target_file="$final_path/data/settings.js"
+
+# Set editor path
+ynh_replace_string --match_string="//httpAdminRoot: '/admin'," --replace_string="httpAdminRoot: '$path_url'," --target_file="$final_path/data/settings.js"
+
+# Set nodes endpoints path
+ynh_replace_string --match_string="//httpNodeRoot: '/red-nodes'," --replace_string="httpNodeRoot: '$nodes_url'," --target_file="$final_path/data/settings.js"
+
+# Set dashboard path
 ynh_replace_string --match_string="//ui: { path: "ui" }," --replace_string="ui: { path: "/ui/" }," --target_file="$final_path/data/settings.js"
 
 #=================================================
@@ -156,7 +170,8 @@ ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$ap
 ynh_script_progression --message="Configuring permissions..." --weight=1
 
 ynh_permission_update --permission="main" --remove="all_users" --add="$admin"
-ynh_permission_create --permission="ui" --url="/ui" --allowed="$admin"
+ynh_permission_create --permission="nodes" --url="$nodes_path" --allowed="visitors" --label="nodes endpoints"
+ynh_permission_create --permission="ui" --url="/ui" --allowed="$admin" --label="dashboard"
 
 #=================================================
 # RELOAD NGINX

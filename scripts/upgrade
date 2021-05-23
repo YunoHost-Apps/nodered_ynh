@@ -21,11 +21,32 @@ path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 port=$(ynh_app_setting_get --app=$app --key=port)
 
+if [ $path_url = "/" ]
+then
+        nodes_url="/red-nodes/"
+else
+        nodes_url="$path_url/red-nodes/"
+fi
+
 #=================================================
 # CHECK VERSION
 #=================================================
 
 upgrade_type=$(ynh_check_app_version_changed)
+
+#=================================================
+# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
+#=================================================
+ynh_script_progression --message="Backing up Node-RED before upgrading (may take a while)..." --weight=1
+
+# Backup the current version of the app
+ynh_backup_before_upgrade
+ynh_clean_setup () {
+	# restore it if the upgrade fails
+	ynh_restore_upgradebackup
+}
+# Exit if an error occurs during the execution of the script
+ynh_abort_if_errors
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
@@ -45,19 +66,15 @@ if ynh_legacy_permissions_exists; then
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up Node-RED before upgrading (may take a while)..." --weight=1
+if ! ynh_permission_exists --permission="nodes"; then
+	# Create the required permissions
+	ynh_permission_create --permission="nodes" --url="$nodes_path" --allowed="visitors" --label="nodes endpoints"
+fi
 
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	# restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
+if ! ynh_permission_exists --permission="ui"; then
+	# Create the required permissions
+	ynh_permission_create --permission="ui" --url="/ui" --label="dashboard"
+fi
 
 #=================================================
 # CLOSING PORT
@@ -132,7 +149,17 @@ ynh_add_nginx_config
 if [ ! -f $final_path/data/settings.js ]; then
 	cp $final_path/settings.js $final_path/data/settings.js
 fi
-ynh_replace_string --match_string="//httpRoot: '/red'," --replace_string="httpRoot: '$path_url'," --target_file="$final_path/data/settings.js"
+
+# Disable httpRoot from older installs
+ynh_replace_string --match_string="httpRoot: '$path_url'," --replace_string="//httpRoot: '/'," --target_file="$final_path/data/settings.js"
+
+# Set editor path
+ynh_replace_string --match_string="//httpAdminRoot: '/admin'," --replace_string="httpAdminRoot: '$path_url'," --target_file="$final_path/data/settings.js"
+
+# Set nodes endpoints path
+ynh_replace_string --match_string="//httpNodeRoot: '/red-nodes'," --replace_string="httpNodeRoot: '$nodes_url'," --target_file="$final_path/data/settings.js"
+
+# Set dashboard path
 ynh_replace_string --match_string="//ui: { path: "ui" }," --replace_string="ui: { path: "/ui/" }," --target_file="$final_path/data/settings.js"
 
 #=================================================
