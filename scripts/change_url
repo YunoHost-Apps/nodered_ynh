@@ -26,9 +26,17 @@ app=$YNH_APP_INSTANCE_NAME
 #=================================================
 ynh_script_progression --message="Loading installation settings..." --weight=1
 
-# Needed for helper "ynh_add_nginx_config"
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 port=$(ynh_app_setting_get --app=$app --key=port)
+
+if [[ $path_url = "/" ]]
+then
+        nodes_url="/"
+        admin_url="/admin"
+else
+        nodes_url="$path_url"
+        admin_url="$path_url/admin"
+fi
 
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
@@ -107,7 +115,7 @@ fi
 # ALTERED NODERED SETTINGS FILE
 #=================================================
 
-ynh_replace_string --match_string="httpRoot: '$old_path'," --replace_string="httpRoot: '$new_path'," --target_file="$final_path/data/settings.js"
+ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
 
 #=================================================
 # GENERIC FINALISATION
@@ -116,7 +124,7 @@ ynh_replace_string --match_string="httpRoot: '$old_path'," --replace_string="htt
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --weight=1
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start"
 
 #=================================================
 # RELOAD NGINX

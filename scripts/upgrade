@@ -21,11 +21,13 @@ path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 port=$(ynh_app_setting_get --app=$app --key=port)
 
-if [ $path_url = "/" ]
+if [[ $path_url = "/" ]]
 then
-        nodes_url="/red-nodes/"
+        nodes_url="/"
+        admin_url="/admin"
 else
-        nodes_url="$path_url/red-nodes/"
+        nodes_url="$path_url"
+        admin_url="$path_url/admin"
 fi
 
 #=================================================
@@ -66,14 +68,9 @@ if ynh_legacy_permissions_exists; then
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
-if ! ynh_permission_exists --permission="nodes"; then
+if ! ynh_permission_exists --permission="admin"; then
 	# Create the required permissions
-	ynh_permission_create --permission="nodes" --url="$nodes_url" --allowed="visitors" --label="nodes endpoints"
-fi
-
-if ! ynh_permission_exists --permission="ui"; then
-	# Create the required permissions
-	ynh_permission_create --permission="ui" --url="/ui" --label="dashboard"
+	ynh_permission_create --permission="admin" --url="/admin" --label="admin" --show_tile=true
 fi
 
 #=================================================
@@ -95,7 +92,7 @@ fi
 #=================================================
 ynh_script_progression --message="Stopping a systemd service..." --weight=1
 
-ynh_systemd_action --service_name=$app --action="stop" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="stop"
 
 #=================================================
 # INSTALL NODEJS
@@ -128,11 +125,13 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 ynh_script_progression --message="Installing Node-RED..." --weight=30
 
-chown -R $app: $final_path
+chown -R root:root $final_path
+chown -R $app: $final_path/data
 
 pushd $final_path
 	ynh_use_nodejs
 	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install --production
+	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install node-red-dashboard
 popd
 
 #=================================================
@@ -146,21 +145,9 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC UPGRADE
 #=================================================
-if [ ! -f $final_path/data/settings.js ]; then
-	cp $final_path/settings.js $final_path/data/settings.js
-fi
 
-# Disable httpRoot from older installs
-ynh_replace_string --match_string="httpRoot: '$path_url'," --replace_string="//httpRoot: '/'," --target_file="$final_path/data/settings.js"
-
-# Set editor path
-ynh_replace_string --match_string="//httpAdminRoot: '/admin'," --replace_string="httpAdminRoot: '$path_url'," --target_file="$final_path/data/settings.js"
-
-# Set nodes endpoints path
-ynh_replace_string --match_string="//httpNodeRoot: '/red-nodes'," --replace_string="httpNodeRoot: '$nodes_url'," --target_file="$final_path/data/settings.js"
-
-# Set dashboard path
-ynh_replace_string --match_string="//ui: { path: "ui" }," --replace_string="ui: { path: "/ui/" }," --target_file="$final_path/data/settings.js"
+# Set up the settings file
+ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
 
 #=================================================
 # SETUP LOGROTATE
@@ -174,11 +161,6 @@ ynh_use_logrotate --non-append
 # SETUP SYSTEMD
 #=================================================
 ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
-
-# Set the systemd service settings
-ynh_replace_string --match_string="__PORT__" --replace_string="$port" --target_file="../conf/systemd.service"
-ynh_replace_string --match_string="__NODEJS__" --replace_string="$nodejs_version" --target_file="../conf/systemd.service"
-ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -203,7 +185,7 @@ yunohost service add $app --description="Low-code programming for event-driven a
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --weight=1
 
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start"
 
 #=================================================
 # RELOAD NGINX

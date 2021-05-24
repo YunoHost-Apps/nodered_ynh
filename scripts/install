@@ -23,13 +23,16 @@ ynh_abort_if_errors
 domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
+is_public=$YNH_APP_ARG_IS_PUBLIC
 app=$YNH_APP_INSTANCE_NAME
 
-if [ $path_url = "/" ]
+if [[ $path_url = "/" ]]
 then
-	nodes_url="/red-nodes"
+	nodes_url="/"
+	admin_url="/admin"
 else
-	nodes_url="$path_url/red-nodes"
+	nodes_url="$path_url"
+	admin_url="$path_url/admin"
 fi
 
 #=================================================
@@ -95,6 +98,7 @@ chown -R $app: $final_path
 pushd $final_path
 	ynh_use_nodejs
 	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install --production
+	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install node-red-dashboard
 popd
 
 #=================================================
@@ -108,27 +112,15 @@ ynh_add_nginx_config
 #=================================================
 # SPECIFIC SETUP
 #=================================================
+
+# Set up the settings file
 mkdir -p $final_path/data
-cp $final_path/settings.js $final_path/data/settings.js
-
-# Set editor path
-ynh_replace_string --match_string="//httpAdminRoot: '/admin'," --replace_string="httpAdminRoot: '$path_url'," --target_file="$final_path/data/settings.js"
-
-# Set nodes endpoints path
-ynh_replace_string --match_string="//httpNodeRoot: '/red-nodes'," --replace_string="httpNodeRoot: '$nodes_url'," --target_file="$final_path/data/settings.js"
-
-# Set dashboard path
-ynh_replace_string --match_string="//ui: { path: "ui" }," --replace_string="ui: { path: "/ui/" }," --target_file="$final_path/data/settings.js"
+ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
 
 #=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_script_progression --message="Configuring a systemd service..." --weight=3
-
-# Set the systemd service settings
-ynh_replace_string --match_string="__PORT__" --replace_string="$port" --target_file="../conf/systemd.service"
-ynh_replace_string --match_string="__NODEJS__" --replace_string="$nodejs_version" --target_file="../conf/systemd.service"
-ynh_replace_string --match_string="__ENV_PATH__" --replace_string="$PATH" --target_file="../conf/systemd.service"
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -140,7 +132,8 @@ ynh_add_systemd_config
 #=================================================
 
 # Set permissions to app files
-chown -R $app: $final_path
+chown -R root:root $final_path
+chown -R $app: $final_path/data
 
 #=================================================
 # SETUP LOGROTATE
@@ -162,16 +155,22 @@ yunohost service add $app --description="Low-code programming for event-driven a
 ynh_script_progression --message="Starting a systemd service..." --weight=2
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start" --log_path="/var/log/$app/$app.log"
+ynh_systemd_action --service_name=$app --action="start"
 
 #=================================================
 # SETUP SSOWAT
 #=================================================
 ynh_script_progression --message="Configuring permissions..." --weight=1
 
-ynh_permission_update --permission="main" --remove="all_users" --add="$admin"
-ynh_permission_create --permission="nodes" --url="$nodes_url" --allowed="visitors" --label="nodes endpoints"
-ynh_permission_create --permission="ui" --url="/ui" --allowed="$admin" --label="dashboard"
+# Make the dashboard and nodes endpoints public if necessary
+if [ $is_public -eq 1 ]
+then
+	# Everyone can access the app.
+	# The "main" permission is automatically created before the install script.
+	ynh_permission_update --permission="main" --add="visitors"
+fi
+
+ynh_permission_create --permission="admin" --url="/admin" --allowed="$admin" --label="admin" --show_tile=true
 
 #=================================================
 # RELOAD NGINX

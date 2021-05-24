@@ -43,6 +43,15 @@
                 "name": "admin",
                 "type": "user",
                 "example": "johndoe"
+            },
+            {
+                "name": "is_public",
+                "type": "boolean",
+                "default": true,
+                "help": {
+                    "en": "Should the dashboard and the nodes endpoints be publicly accessible?",
+                    "fr": "Le tableau de bord et les routes des nodes doivent-ils être publiquement accessibles?"
+                }
             }
         ]
     }

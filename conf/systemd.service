@@ -1,14 +1,16 @@
 [Unit]
-Description=Node-red service for its YunoHost app
+Description=Node-RED server
 After=network.target
 
 [Service]
 Type=simple
 User=__APP__
 Group=__APP__
-WorkingDirectory=__FINALPATH__
-Environment="PATH=__ENV_PATH__"
-ExecStart=__FINALPATH__/bin/node-red-pi -p __PORT__ -u __FINALPATH__/data >> /var/log/__APP__/__APP__.log 2>&1
+WorkingDirectory=__FINALPATH__/
+Environment=NODE_ENV=production
+ExecStart=__NODEJS_PATH__/node red.js -p __PORT__ -u __FINALPATH__/data
+StandardOutput=append:/var/log/__APP__/__APP__.log
+StandardError=inherit
 
 [Install]
 WantedBy=multi-user.target
