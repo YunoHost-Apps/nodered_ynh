@@ -67,13 +67,17 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 # Restore permissions on app files
 chown -R $app: $final_path
 
+# Create log directory and apply permissions
+mkdir -p /var/log/$app
+chown -R $app: /var/log/$app
+
 #=================================================
 # SPECIFIC RESTORATION
 #=================================================
 # INSTALL NODEJS
 #=================================================
 
-ynh_install_nodejs $nodejs_version
+ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
 # RESTORE SYSTEMD

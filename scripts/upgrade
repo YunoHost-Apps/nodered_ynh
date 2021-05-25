@@ -98,7 +98,7 @@ ynh_systemd_action --service_name=$app --action="stop"
 # INSTALL NODEJS
 #=================================================
 
-ynh_install_nodejs $nodejs_version
+ynh_install_nodejs --nodejs_version=$nodejs_version
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
