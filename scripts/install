@@ -95,10 +95,11 @@ ynh_script_progression --message="Installing Node-RED..." --weight=2
 
 chown -R $app: $final_path
 
+ynh_use_nodejs
+
 pushd $final_path
-	ynh_use_nodejs
-	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install --production
-	ynh_exec_warn_less exec_as $app env PATH=$PATH npm install node-red-dashboard
+	ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install --production
+	ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
 popd
 
 #=================================================
