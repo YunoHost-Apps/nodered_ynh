@@ -65,7 +65,9 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 
 # Restore permissions on app files
-chown -R $app: $final_path
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app: "$final_path"
 
 # Create log directory and apply permissions
 mkdir -p /var/log/$app

@@ -93,8 +93,6 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 ynh_script_progression --message="Installing Node-RED..." --weight=2
 
-chown -R $app: $final_path
-
 ynh_use_nodejs
 
 pushd $final_path
@@ -133,8 +131,9 @@ ynh_add_systemd_config
 #=================================================
 
 # Set permissions to app files
-chown -R root:root $final_path
-chown -R $app: $final_path/data
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app: "$final_path"
 
 #=================================================
 # SETUP LOGROTATE

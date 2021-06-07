@@ -125,9 +125,6 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 ynh_script_progression --message="Installing Node-RED..." --weight=30
 
-chown -R root:root $final_path
-chown -R $app: $final_path/data
-
 ynh_use_nodejs
 
 pushd $final_path
@@ -173,7 +170,9 @@ ynh_add_systemd_config
 #=================================================
 
 # Set permissions on app files
-chown -R $app: $final_path
+chmod 750 "$final_path"
+chmod -R o-rwx "$final_path"
+chown -R $app: "$final_path"
 
 #=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
