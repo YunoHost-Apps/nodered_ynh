@@ -117,6 +117,9 @@ fi
 
 ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
 
+chmod o-rwx "$final_path/data/settings.js"
+chown -R $app: "$final_path/data/settings.js"
+
 #=================================================
 # GENERIC FINALISATION
 #=================================================
