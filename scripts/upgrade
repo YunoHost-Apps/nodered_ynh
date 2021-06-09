@@ -73,10 +73,6 @@ if ! ynh_permission_exists --permission="admin"; then
 	ynh_permission_create --permission="admin" --url="/admin" --label="admin" --show_tile=true
 fi
 
-if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version) ]; then
-	ynh_remove_nodejs
-fi
-
 #=================================================
 # CLOSING PORT
 #=================================================
@@ -102,7 +98,10 @@ ynh_systemd_action --service_name=$app --action="stop"
 # INSTALL NODEJS
 #=================================================
 
-ynh_install_nodejs --nodejs_version=$nodejs_version
+if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version ]; then
+	ynh_remove_nodejs
+	ynh_install_nodejs --nodejs_version=$nodejs_version
+fi
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -130,6 +129,8 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 ynh_script_progression --message="Installing Node-RED..." --weight=30
 
 ynh_use_nodejs
+
+chown -R $app: "$final_path"
 
 pushd $final_path
         ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install --production
