@@ -73,6 +73,10 @@ if ! ynh_permission_exists --permission="admin"; then
 	ynh_permission_create --permission="admin" --url="/admin" --label="admin" --show_tile=true
 fi
 
+if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version) ]; then
+	ynh_remove_nodejs
+fi
+
 #=================================================
 # CLOSING PORT
 #=================================================
