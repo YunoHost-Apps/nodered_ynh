@@ -13,7 +13,7 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 Programmation par flux de données pour l'Internet des objets
 
-**Version incluse :** 1.3.5~ynh2
+**Version incluse :** 2.0.1~ynh1
 
 
 
