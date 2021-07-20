@@ -6,7 +6,7 @@
         "en": "Flow-based programming for the Internet of Things",
         "fr": "Programmation par flux de données pour l'Internet des objets"
     },
-    "version": "1.3.5~ynh2",
+    "version": "2.0.1~ynh1",
     "url": "https://nodered.org",
     "upstream": {
         "license": "Apache-2.0",
@@ -50,7 +50,7 @@
                 "default": true,
                 "help": {
                     "en": "Should the dashboard and the nodes endpoints be publicly accessible?",
-                    "fr": "Le tableau de bord et les routes des nodes doivent-ils être publiquement accessibles?"
+                    "fr": "Le tableau de bord et les routes des nodes doivent-ils être publiquement accessibles ?"
                 }
             }
         ]
