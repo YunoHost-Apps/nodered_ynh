@@ -133,8 +133,8 @@ ynh_use_nodejs
 chown -R $app: "$final_path"
 
 pushd $final_path
-        ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install --production
-        ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
+        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
+        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
 popd
 
 #=================================================
