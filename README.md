@@ -17,7 +17,7 @@ If you don't have YunoHost, please consult [the guide](https://yunohost.org/#/in
 
 Flow-based programming for the Internet of Things
 
-**Shipped version:** 2.0.3
+**Shipped version:** 2.0.3~ynh1
 
 
 
