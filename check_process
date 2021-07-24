@@ -11,7 +11,7 @@
 		setup_root=1
 		setup_nourl=0
 		setup_private=1
-		setup_public=0 #Considering the sensitive actions this app can do, I prefer to have it private
+		setup_public=1
 		upgrade=1
 		upgrade=1	from_commit=453b13703bb418a7da33ed4f3e96a486b365d865
 		upgrade=1	from_commit=2b01dad6ce2214a07f8b5dd63ee040c34268204c
