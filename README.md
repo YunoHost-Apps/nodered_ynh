@@ -28,10 +28,9 @@ Flow-based programming for the Internet of Things
 ## Disclaimers / important information
 
 YunoHost's permissions system allows you to select which users can have access to Node-RED:
-* The `main` permission protects
-  * `/path`, to access to the dashboard ;
-  * all `/path/<node>` endpoints defined in the HTTP nodes (with the exception of `/path/admin`).
-* Upon installation, the selected administrator will have the `admin` permission and access to the editor at `/path/admin`
+* `main` permission protects `./`, to access the dashboard and HTTP endpoints ;
+By default it is accessible to visitors, since it is meant to be used for API-like endpoints ;
+* `admin` permission protects `./admin`. Upon installation, the selected admin will have sole access to it.
 
 ## Documentation and resources
 
