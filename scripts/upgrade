@@ -73,6 +73,11 @@ if ! ynh_permission_exists --permission="admin"; then
 	ynh_permission_create --permission="admin" --url="/admin" --label="admin" --show_tile=true
 fi
 
+if ynh_permission_exists --permission="ui"; then
+	# Delete the old permission
+	ynh_permission_delete --permission="ui"
+fi
+
 #=================================================
 # CLOSING PORT
 #=================================================
