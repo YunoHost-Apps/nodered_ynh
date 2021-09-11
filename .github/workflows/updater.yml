@@ -25,14 +25,6 @@ jobs:
           git config --global user.email 'yunohost-bot@users.noreply.github.com'
           # Run the updater script
           ./.github/workflows/updater.sh
-          retval=$?
-          # Check if we are allowed to proceed
-          if [ $retval -eq 0 ]; then
-              echo "PROCEED=true" >> $GITHUB_ENV
-          else
-              echo "PROCEED=false" >> $GITHUB_ENV
-              echo "::warning ::The updater script failed (exit code $retval)"
-          fi
           # Commit
           git commit -am "Upgrade to v$VERSION"
       - name: Create Pull Request
