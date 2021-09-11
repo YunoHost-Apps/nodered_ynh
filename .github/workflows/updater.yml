@@ -25,7 +25,10 @@ jobs:
           git config --global user.email 'yunohost-bot@users.noreply.github.com'
           # Run the updater script
           ./.github/workflows/updater.sh
-          # Commit
+      - name: Commit changes
+        id: commit
+        if: ${{ env.PROCEED == 'true' }}
+        run: |
           git commit -am "Upgrade to v$VERSION"
       - name: Create Pull Request
         id: cpr
