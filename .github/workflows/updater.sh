@@ -56,11 +56,8 @@ echo "Handling asset at $asset_url"
 # Here we base the source file name upon a unique keyword in the assets url (admin vs. update)
 # Leave $src empty to ignore the asset
 case $asset_url in
-  *"admin"*)
+  *"node-red-"*)
     src="app"
-    ;;
-  *"update"*)
-    src="app-upgrade"
     ;;
   *)
     src=""
@@ -89,7 +86,7 @@ extension=${filename##*.}
 fi
 
 # Rewrite source file
-cat <<EOT > conf/app.src
+cat <<EOT > conf/$src.src
 SOURCE_URL=$DOWNLOAD_URL
 SOURCE_SUM=$checksum
 SOURCE_SUM_PRG=sha256sum
