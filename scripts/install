@@ -26,15 +26,6 @@ admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
 app=$YNH_APP_INSTANCE_NAME
 
-if [[ $path_url = "/" ]]
-then
-	nodes_url="/"
-	admin_url="/admin"
-else
-	nodes_url="$path_url"
-	admin_url="$path_url/admin"
-fi
-
 #=================================================
 # CHECK IF THE APP CAN BE INSTALLED WITH THESE ARGS
 #=================================================
@@ -74,7 +65,7 @@ ynh_install_nodejs --nodejs_version=$nodejs_version
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Setting up source files..." --weight=1
+ynh_script_progression --message="Setting up source files..." --weight=2
 
 ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 # Download, check integrity, uncompress and patch the source from app.src
@@ -91,7 +82,7 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # Install through npm
 #=================================================
-ynh_script_progression --message="Installing Node-RED..." --weight=2
+ynh_script_progression --message="Installing Node-RED..." --weight=5
 
 ynh_use_nodejs
 chown -R $app: "$final_path"
@@ -104,7 +95,7 @@ popd
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring NGINX web server..." --weight=30
+ynh_script_progression --message="Configuring NGINX web server..." --weight=1
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
@@ -128,7 +119,7 @@ chown -R $app: "$final_path"
 #=================================================
 # SETUP SYSTEMD
 #=================================================
-ynh_script_progression --message="Configuring a systemd service..." --weight=3
+ynh_script_progression --message="Configuring a systemd service..." --weight=1
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
@@ -136,7 +127,7 @@ ynh_add_systemd_config
 #=================================================
 # SETUP LOGROTATE
 #=================================================
-ynh_script_progression --message="Configuring log rotation..." --weight=3
+ynh_script_progression --message="Configuring log rotation..." --weight=1
 
 # Use logrotate to manage application logfile(s)
 ynh_use_logrotate
@@ -150,7 +141,7 @@ yunohost service add $app --description="Low-code programming for event-driven a
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=2
+ynh_script_progression --message="Starting a systemd service..." --weight=3
 
 # Start a systemd service
 ynh_systemd_action --service_name=$app --action="start"
@@ -160,15 +151,23 @@ ynh_systemd_action --service_name=$app --action="start"
 #=================================================
 ynh_script_progression --message="Configuring permissions..." --weight=1
 
-# Make the dashboard and nodes endpoints public if necessary
+# The "main" permission is automatically created before the install script.
+# Here we use it for the endpoints root, they should be world-accessible by default
+# Since it is meant for automated actions, we hide the tile from the SSO
+ynh_permission_create --permission="endpoints" --url="/" --allowed="visitors" --show_tile=false
+
+# Create the dashboard UI permission
+ynh_permission_create --permission="ui" --url="/ui" --allowed="$admin" --show_tile=true
+
+# Reuse the main permission for the admin
+ynh_permission_url --permission="main" --url="/admin"
+ynh_permission_update --permission="main" --add="$admin" --remove="all_users" --show_tile=true
+
+# Make the dashboard public if necessary
 if [ $is_public -eq 1 ]
 then
-	# Everyone can access the app.
-	# The "main" permission is automatically created before the install script.
-	ynh_permission_update --permission="main" --add="visitors"
+	ynh_permission_update --permission="ui" --remove="$admin" --add="visitors"
 fi
-
-ynh_permission_create --permission="admin" --url="/admin" --allowed="$admin" --label="admin" --show_tile=true
 
 #=================================================
 # RELOAD NGINX

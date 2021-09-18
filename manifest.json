@@ -47,10 +47,10 @@
             {
                 "name": "is_public",
                 "type": "boolean",
-                "default": true,
+                "default": false,
                 "help": {
-                    "en": "Should the dashboard and the nodes endpoints be publicly accessible?",
-                    "fr": "Le tableau de bord et les routes des nodes doivent-ils être publiquement accessibles ?"
+                    "en": "Should the dashboard be publicly accessible?",
+                    "fr": "Le tableau de bord doit-il être publiquement accessible ?"
                 }
             }
         ]
