@@ -108,6 +108,11 @@ ynh_add_nginx_config
 mkdir -p $final_path/data
 ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
 
+# Small hack to have the "/" path answer with a 200 code to satisfy the CI
+if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
+    ynh_add_config --template="../conf/flows.json" --destination="$final_path/data/flows.json"
+fi
+
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================

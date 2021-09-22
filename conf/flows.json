@@ -1,0 +1,68 @@
+[
+    {
+        "id": "bc116265cdf0e254",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "255633424e315905",
+        "type": "http in",
+        "z": "bc116265cdf0e254",
+        "name": "",
+        "url": "/",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "a2420c0d393687a4"
+            ]
+        ]
+    },
+    {
+        "id": "274b98239a2ae817",
+        "type": "http response",
+        "z": "bc116265cdf0e254",
+        "name": "",
+        "statusCode": "200",
+        "headers": {
+            "test": "test"
+        },
+        "x": 460,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "a2420c0d393687a4",
+        "type": "function",
+        "z": "bc116265cdf0e254",
+        "name": "Set answer's body",
+        "func": "msg.payload=\"Node-RED has been sucessfully installed!\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 160,
+        "wires": [
+            [
+                "274b98239a2ae817"
+            ]
+        ]
+    },
+    {
+        "id": "cb54e0b32ffe6082",
+        "type": "comment",
+        "z": "bc116265cdf0e254",
+        "name": "Demo of HTTP node for Node-RED",
+        "info": "",
+        "x": 220,
+        "y": 120,
+        "wires": []
+    }
+]
