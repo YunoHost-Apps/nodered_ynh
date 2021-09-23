@@ -47,8 +47,8 @@
                 "type": "boolean",
                 "default": false,
                 "help": {
-                    "en": "Should the dashboard be publicly accessible?",
-                    "fr": "Le tableau de bord doit-il être publiquement accessible ?"
+                    "en": "Should the dashboard and HTTP endpoints be publicly accessible?",
+                    "fr": "Le tableau de bord et les points d'accès HTTP doivent-ils être publiquement accessibles ?"
                 }
             }
         ]
