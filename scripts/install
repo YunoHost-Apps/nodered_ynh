@@ -159,10 +159,10 @@ ynh_script_progression --message="Configuring permissions..." --weight=1
 # The "main" permission is automatically created before the install script.
 # Here we use it for the endpoints root, they should be world-accessible by default
 # Since it is meant for automated actions, we hide the tile from the SSO
-ynh_permission_create --permission="endpoints" --url="/" --allowed="visitors" --show_tile=false
+ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
 
 # Create the dashboard UI permission
-ynh_permission_create --permission="ui" --url="/ui" --allowed="$admin" --show_tile=true
+ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
 
 # Reuse the main permission for the admin
 ynh_permission_url --permission="main" --url="/admin"
@@ -171,7 +171,11 @@ ynh_permission_update --permission="main" --add="$admin" --remove="all_users" --
 # Make the dashboard public if necessary
 if [ $is_public -eq 1 ]
 then
-	ynh_permission_update --permission="ui" --remove="$admin" --add="visitors"
+	ynh_permission_update --permission="ui" --add="visitors"
+	ynh_permission_update --permission="endpoints" --add="visitors"
+else
+	ynh_permission_update --permission="ui" --add="$admin"
+	ynh_permission_update --permission="endpoints" --add="$admin"
 fi
 
 #=================================================
