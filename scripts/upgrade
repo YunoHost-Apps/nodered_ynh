@@ -61,14 +61,21 @@ fi
 
 # After 1.3.5~ynh2, permissions have been reworked
 if ynh_permission_exists --permission="admin"; then
-	# Delete the admin permission, we use main for that now
+	# Delete the admin permission
 	ynh_permission_delete --permission="admin"
+	# We use main as admin permission
         ynh_permission_url --permission="main" --url="/admin"
-	ynh_permission_update --permission="main" --remove="visitors"
 	# Create ui permission, for the dashboard
 	ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
 	# Create endpoints permission
 	ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
+	# Transfer the publicness of the app to ui and endpoints
+	if ynh_permission_has_user --permission=main --user=visitors; then
+		ynh_permission_update --permission="ui" --add="visitors"
+		ynh_permission_update --permission="endpoints" --add="visitors"
+	fi
+	# Remove visitor access to the admin panel
+	ynh_permission_update --permission="main" --remove="visitors"
 fi
 
 # Flows were stored in file named after the hostname.

@@ -3,8 +3,7 @@
 		domain="domain.tld"
 		path="/path"
 		admin="john"
-		password="pass"
-		port="666"
+		is_public=1
 	; Checks
 		pkg_linter=1
 		setup_sub_dir=1
@@ -24,7 +23,7 @@ Notification=none
 ;;; Upgrade options
 	; commit=453b13703bb418a7da33ed4f3e96a486b365d865
 		name=v1.2.9 2021-02-20
-		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&password=pass&port=666&
+		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&
 	; commit=2b01dad6ce2214a07f8b5dd63ee040c34268204c
 		name=Merge pull request #26 from YunoHost-Apps/testing 
-		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&password=pass&port=666&
+		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&
