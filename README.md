@@ -40,7 +40,7 @@ It provides a browser-based editor that makes it easy to wire together flows usi
 YunoHost's permissions system allows you to select which users can have access to Node-RED:
 * `main` permission protects `/admin`, the flows editor. The administrator is chosen during installation ;
 * `ui` permission protects `/ui`, the dashboard allowing visual interface for the flows. Public access is chosen during installation ;
-* `endpoints` permission protects `/`, for API-like endpoints. By default, it is world-accessible.
+* `endpoints` permission protects `/`, for API-like endpoints. Public access is chosen during installation.
 
 If you have upgraded Node-RED beyond v2, check that these permissions suit you in your YunoHost admin panel.
 
