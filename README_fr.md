@@ -11,7 +11,17 @@ Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour
 
 ## Vue d'ensemble
 
-Programmation par flux de données pour l'Internet des objets
+Node-RED est un outil de programmation pour connecter des appareils, API, et des services en ligne en de nouvelles et intéressantes façons.
+
+Il propose un éditeur accessible dans le navigateur, qui facilite l'ébauche de flux qui connectent ensemble la grande variété de nœuds disponibles dans sa palette. Ces flux sont ensuite activables et déployables en un clic.
+
+### Fonctionnalités
+
+- Edition de flux dans le navigateur
+- Déploiement des flux en un clic
+- Plus de 225 000 modules disponibles
+- Fonctions personnalisées en JavaScript
+
 
 **Version incluse :** 2.0.6~ynh1
 
@@ -27,6 +37,8 @@ Le système de permissions de YunoHost permet de paramétrer les accès à Node-
 * la permission `main` protège `/admin`, l'éditeur de flux. L'administrateur est sélectionné pendant l'installation ;
 * la permisison `ui` protège `/ui`, le tableau de bord permettant de donner une interface graphique aux flux. L'accès public est défini lors de l'installation. ;
 * la permission `endpoints` protège `/`, pour notamment les points d'entrée de type API. Par défault, elle est accessible aux visiteurs.
+
+Si vous avez mis à jour Node-RED au-delà de la version 2, vérifiez que ces permissions vous conviennent dans votre panneau d'administration de YunoHost.
 
 ## Documentations et ressources
 
