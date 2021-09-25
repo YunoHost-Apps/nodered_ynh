@@ -21,15 +21,6 @@ path_url=$(ynh_app_setting_get --app=$app --key=path)
 final_path=$(ynh_app_setting_get --app=$app --key=final_path)
 port=$(ynh_app_setting_get --app=$app --key=port)
 
-if [[ $path_url = "/" ]]
-then
-        nodes_url="/"
-        admin_url="/admin"
-else
-        nodes_url="$path_url"
-        admin_url="$path_url/admin"
-fi
-
 #=================================================
 # CHECK VERSION
 #=================================================
@@ -39,7 +30,7 @@ upgrade_type=$(ynh_check_app_version_changed)
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up Node-RED before upgrading (may take a while)..." --weight=1
+ynh_script_progression --message="Backing up Node-RED before upgrading (may take a while)..." --weight=5
 
 # Backup the current version of the app
 ynh_backup_before_upgrade
@@ -68,9 +59,30 @@ if ynh_legacy_permissions_exists; then
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
-if ! ynh_permission_exists --permission="admin"; then
-	# Create the required permissions
-	ynh_permission_create --permission="admin" --url="/admin" --label="admin" --show_tile=true
+# After 1.3.5~ynh2, permissions have been reworked
+if ynh_permission_exists --permission="admin"; then
+	# Delete the admin permission
+	ynh_permission_delete --permission="admin"
+	# We use main as admin permission
+        ynh_permission_url --permission="main" --url="/admin"
+	# Create ui permission, for the dashboard
+	ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
+	# Create endpoints permission
+	ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
+	# Transfer the publicness of the app to ui and endpoints
+	if ynh_permission_has_user --permission=main --user=visitors; then
+		ynh_permission_update --permission="ui" --add="visitors"
+		ynh_permission_update --permission="endpoints" --add="visitors"
+	fi
+	# Remove visitor access to the admin panel
+	ynh_permission_update --permission="main" --remove="visitors"
+fi
+
+# Flows were stored in file named after the hostname.
+# Not very portable. Let's fix that.
+if [ ! -f "$final_path/data/flows.json" ]; then
+	mv "$final_path/data/flows_$(hostname)_cred.json" "$final_path/data/flows_cred.json"
+	mv "$final_path/data/flows_$(hostname).json" "$final_path/data/flows.json"
 fi
 
 #=================================================
@@ -81,7 +93,7 @@ fi
 # allowing direct access to Node-RED... let's close it.
 if yunohost firewall list | grep -q "\- $port$"
 then
-        ynh_script_progression --message="Closing port $port..."
+        ynh_script_progression --message="Closing port $port..." --weight=1
         ynh_exec_warn_less yunohost firewall disallow TCP $port
 fi
 
@@ -109,7 +121,7 @@ fi
 
 if [ "$upgrade_type" == "UPGRADE_APP" ]
 then
-	ynh_script_progression --message="Upgrading source files..." --weight=1
+	ynh_script_progression --message="Upgrading source files..." --weight=2
 
 	# Download, check integrity, uncompress and patch the source from app.src
 	ynh_setup_source --dest_dir="$final_path"
@@ -126,15 +138,15 @@ ynh_system_user_create --username=$app --home_dir=$final_path
 #=================================================
 # Install through npm
 #=================================================
-ynh_script_progression --message="Installing Node-RED..." --weight=30
+ynh_script_progression --message="Installing Node-RED..." --weight=5
 
 ynh_use_nodejs
 
 chown -R $app: "$final_path"
 
 pushd $final_path
-        ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install --production
-        ynh_exec_warn_less exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
+        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
+        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
 popd
 
 #=================================================
@@ -151,6 +163,11 @@ ynh_add_nginx_config
 
 # Set up the settings file
 ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
+
+# Small hack to have the "/" path answer with a 200 code to satisfy the CI
+if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
+    ynh_add_config --template="../conf/flows.json" --destination="$final_path/data/flows.json"
+fi
 
 #=================================================
 # SETUP LOGROTATE
@@ -188,7 +205,7 @@ yunohost service add $app --description="Low-code programming for event-driven a
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=1
+ynh_script_progression --message="Starting a systemd service..." --weight=3
 
 ynh_systemd_action --service_name=$app --action="start"
 

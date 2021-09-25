@@ -1,5 +1,6 @@
 YunoHost's permissions system allows you to select which users can have access to Node-RED:
-* The `main` permission protects
-  * `/path`, to access to the dashboard ;
-  * all `/path/<node>` endpoints defined in the HTTP nodes (with the exception of `/path/admin`).
-* Upon installation, the selected administrator will have the `admin` permission and access to the editor at `/path/admin`
+* `main` permission protects `/admin`, the flows editor. The administrator is chosen during installation ;
+* `ui` permission protects `/ui`, the dashboard allowing visual interface for the flows. Public access is chosen during installation ;
+* `endpoints` permission protects `/`, for API-like endpoints. Public access is chosen during installation.
+
+If you have upgraded Node-RED beyond v2, check that these permissions suit you in your YunoHost admin panel.

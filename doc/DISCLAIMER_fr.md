@@ -1,5 +1,6 @@
-Le système de permissions de YunoHost permet de paramétrer les accès à Node-RED. Par défaut, seul l'administrateur sélectionné lors de l'installation y a accès.
-* La permission `main` protège
-  * `/chemin`, pour accéder au tableau de bord ;
-  * toutes les routes `/path/<node>` définis par les *nodes* HTTP (à l'exception de `/chemin/admin`).
-* L'utilisateur choisi comme admin à l'installation aura la permission `admin` et aura accès à l'éditeur à l'adresse `/chemin/admin`
+Le système de permissions de YunoHost permet de paramétrer les accès à Node-RED :
+* la permission `main` protège `/admin`, l'éditeur de flux. L'administrateur est sélectionné pendant l'installation ;
+* la permisison `ui` protège `/ui`, le tableau de bord permettant de donner une interface graphique aux flux. L'accès public est défini lors de l'installation ;
+* la permission `endpoints` protège `/`, pour notamment les points d'entrée de type API. L'accès public est défini lors de l'installation.
+
+Si vous avez mis à jour Node-RED au-delà de la version 2, vérifiez que ces permissions vous conviennent dans votre panneau d'administration de YunoHost.
