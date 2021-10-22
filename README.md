@@ -27,7 +27,7 @@ It provides a browser-based editor that makes it easy to wire together flows usi
 - Custom JavaScript functions can be written
 
 
-**Shipped version:** 2.0.6~ynh1
+**Shipped version:** 2.1.1~ynh1
 
 
 
