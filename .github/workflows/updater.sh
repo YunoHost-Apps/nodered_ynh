@@ -71,8 +71,8 @@ if [ ! -z "$src" ]; then
 tempdir="$(mktemp -d)"
 
 # Download sources and calculate checksum
-filename=${DOWNLOAD_URL##*/}
-curl --silent -4 -L $DOWNLOAD_URL -o "$tempdir/$filename"
+filename=${asset_url##*/}
+curl --silent -4 -L $asset_url -o "$tempdir/$filename"
 checksum=$(sha256sum "$tempdir/$filename" | head -c 64)
 
 # Delete temporary directory
@@ -87,7 +87,7 @@ fi
 
 # Rewrite source file
 cat <<EOT > conf/$src.src
-SOURCE_URL=$DOWNLOAD_URL
+SOURCE_URL=$asset_url
 SOURCE_SUM=$checksum
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=$extension
@@ -113,11 +113,8 @@ done
 # GENERIC FINALIZATION
 #=================================================
 
-# Install moreutils, needed for sponge
-sudo apt-get install moreutils
-
 # Replace new version in manifest
-jq -s --indent 4 ".[] | .version = \"$VERSION~ynh1\"" manifest.json | sponge manifest.json
+echo "$(jq -s --indent 4 ".[] | .version = \"$version~ynh1\"" manifest.json)" > manifest.json
 
 # No need to update the README, yunohost-bot takes care of it
 
