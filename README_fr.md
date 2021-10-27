@@ -23,7 +23,7 @@ Il propose un éditeur accessible dans le navigateur, qui facilite l'ébauche de
 - Fonctions personnalisées en JavaScript
 
 
-**Version incluse :** 2.1.2~ynh1
+**Version incluse :** 2.1.3~ynh1
 
 
 
