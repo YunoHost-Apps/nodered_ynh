@@ -1,5 +1,5 @@
-SOURCE_URL=https://github.com/node-red/node-red/releases/download/2.1.3/node-red-2.1.3.zip
-SOURCE_SUM=e24714f1b80e44d06cbf4e9890a62884d1eaab42bfb3678ab33874695bd4a72a
+SOURCE_URL=https://github.com/node-red/node-red/releases/download/2.1.4/node-red-2.1.4.zip
+SOURCE_SUM=aa169161801ca9fef1c5d27c059aa4e06c6833bb04212067a729682f21476b6a
 SOURCE_SUM_PRG=sha256sum
 SOURCE_FORMAT=zip
 SOURCE_IN_SUBDIR=true
