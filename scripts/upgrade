@@ -87,9 +87,14 @@ fi
 
 # Flows were stored in file named after the hostname.
 # Not very portable. Let's fix that.
-if [ ! -f "$final_path/data/flows.json" ]; then
+if [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/flows_$(hostname).json" ]]; then
 	mv "$final_path/data/flows_$(hostname)_cred.json" "$final_path/data/flows_cred.json"
 	mv "$final_path/data/flows_$(hostname).json" "$final_path/data/flows.json"
+# Flows could be stored in a file named '>>'.
+# Definitely weird, let's fix that.
+elif [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/>>" ]]; then
+	mv "$final_path/data/>>_cred" "$final_path/data/flows_cred.json"
+	mv "$final_path/data/>>" "$final_path/data/flows.json"
 fi
 
 #=================================================
