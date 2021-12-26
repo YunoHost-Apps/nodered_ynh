@@ -86,7 +86,7 @@ systemctl enable $app.service --quiet
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
-yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
+yunohost service add $app --description="Low-code programming for event-driven applications" --log_type="systemd"
 
 #=================================================
 # START SYSTEMD SERVICE
