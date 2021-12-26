@@ -14,6 +14,7 @@
 		upgrade=1
 		upgrade=1	from_commit=453b13703bb418a7da33ed4f3e96a486b365d865
 		upgrade=1	from_commit=2b01dad6ce2214a07f8b5dd63ee040c34268204c
+		upgrade=1	from_commit=f4f523df373b93050ef98213241373e1e28d9696
 		backup_restore=1
 		multi_instance=1
 		change_url=1
@@ -25,5 +26,8 @@ Notification=none
 		name=v1.2.9 2021-02-20
 		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&
 	; commit=2b01dad6ce2214a07f8b5dd63ee040c34268204c
-		name=Merge pull request #26 from YunoHost-Apps/testing 
+		name=v1.3.4 2021-04-29
+		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&
+	; commit=f4f523df373b93050ef98213241373e1e28d9696
+		name=v2.1.4 2021-12-03
 		manifest_arg=domain=DOMAIN&path=PATH&admin=USER&is_public=1&
