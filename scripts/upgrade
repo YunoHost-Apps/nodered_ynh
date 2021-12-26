@@ -175,6 +175,9 @@ ynh_add_nginx_config
 
 # Set up the settings file
 ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
+if [[ ! -f "$final_path/data/settings.user.js" ]] ; then
+    ynh_add_config --template="../conf/settings.user.js" --destination="$final_path/data/settings.user.js"
+fi
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
@@ -207,6 +210,8 @@ ynh_add_systemd_config
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
 chown -R $app: "$final_path"
+# make settings.js readonly
+chmod a-w "$final_path/data/settings.js"
 
 #=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
