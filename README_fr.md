@@ -23,7 +23,29 @@ Il propose un éditeur accessible dans le navigateur, qui facilite l'ébauche de
 - Fonctions personnalisées en JavaScript
 
 
-**Version incluse :** 2.1.4~ynh1
+### Surcharger la configuration par défaut
+
+Depuis le répertoire d'installation, éditer le fichier `data/settings.user.js`. Par exemple
+
+```js
+module.exports = (defaultSettings) => ({
+    lang: "de", // définit la langue de l'IHM comme allemande
+    exportGlobalContextKeys: true, // surcharger la valeur de `exportGlobalContextKeys`
+
+    logging: { // remplacer l'option par défaut pour la journalisation (logging)
+        ...defaultSettings.logging, // cela réinjectera les paramètres par défaut dans `logging`
+        console: {
+            ...defaultSettings.logging.level, // cela réinjectera les paramètres par défaut dans `logging.console`
+            level: "debug", // mais isi, nous surchargeons le niveau "info" par "debug"
+        },
+    },
+});
+```
+
+Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `data/settings.js` et trouver la documentation pour configurer Node-RED ici: https://nodered.org/docs/user-guide/runtime/configuration
+
+
+**Version incluse :** 2.1.4~ynh2
 
 
 
