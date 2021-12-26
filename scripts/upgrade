@@ -97,6 +97,12 @@ elif [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/>>" ]]; then
 	mv "$final_path/data/>>" "$final_path/data/flows.json"
 fi
 
+# Remove logrotate and log directory, we use syslog now
+if [[ -d "/etc/logrotate.d/$app" ]]; then
+	ynh_remove_logrotate
+	ynh_secure_remove --file="/var/log/$app"
+fi
+
 #=================================================
 # CLOSING PORT
 #=================================================
@@ -185,14 +191,6 @@ if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
 fi
 
 #=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..." --weight=1
-
-# Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate --non-append
-
-#=================================================
 # SETUP SYSTEMD
 #=================================================
 ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
@@ -217,7 +215,7 @@ chmod a-w "$final_path/data/settings.js"
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
-yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
+yunohost service add $app --description="Low-code programming for event-driven applications" --log_type="systemd"
 
 #=================================================
 # START SYSTEMD SERVICE
