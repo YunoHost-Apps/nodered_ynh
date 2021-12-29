@@ -87,9 +87,20 @@ fi
 
 # Flows were stored in file named after the hostname.
 # Not very portable. Let's fix that.
-if [ ! -f "$final_path/data/flows.json" ]; then
+if [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/flows_$(hostname).json" ]]; then
 	mv "$final_path/data/flows_$(hostname)_cred.json" "$final_path/data/flows_cred.json"
 	mv "$final_path/data/flows_$(hostname).json" "$final_path/data/flows.json"
+# Flows could be stored in a file named '>>'.
+# Definitely weird, let's fix that.
+elif [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/>>" ]]; then
+	mv "$final_path/data/>>_cred" "$final_path/data/flows_cred.json"
+	mv "$final_path/data/>>" "$final_path/data/flows.json"
+fi
+
+# Remove logrotate and log directory, we use syslog now
+if [[ -d "/etc/logrotate.d/$app" ]]; then
+	ynh_remove_logrotate
+	ynh_secure_remove --file="/var/log/$app"
 fi
 
 #=================================================
@@ -170,19 +181,14 @@ ynh_add_nginx_config
 
 # Set up the settings file
 ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
+if [[ ! -f "$final_path/data/settings.user.js" ]] ; then
+    ynh_add_config --template="../conf/settings.user.js" --destination="$final_path/data/settings.user.js"
+fi
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
     ynh_add_config --template="../conf/flows.json" --destination="$final_path/data/flows.json"
 fi
-
-#=================================================
-# SETUP LOGROTATE
-#=================================================
-ynh_script_progression --message="Upgrading logrotate configuration..." --weight=1
-
-# Use logrotate to manage app-specific logfile(s)
-ynh_use_logrotate --non-append
 
 #=================================================
 # SETUP SYSTEMD
@@ -202,12 +208,14 @@ ynh_add_systemd_config
 chmod 750 "$final_path"
 chmod -R o-rwx "$final_path"
 chown -R $app: "$final_path"
+# make settings.js readonly
+chmod a-w "$final_path/data/settings.js"
 
 #=================================================
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
-yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
+yunohost service add $app --description="Low-code programming for event-driven applications" --log_type="systemd"
 
 #=================================================
 # START SYSTEMD SERVICE

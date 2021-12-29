@@ -6,7 +6,7 @@
         "en": "Flow-based programming for the Internet of Things",
         "fr": "Programmation par flux de données pour l'Internet des objets"
     },
-    "version": "2.1.4~ynh1",
+    "version": "2.1.4~ynh2",
     "url": "https://nodered.org",
     "upstream": {
         "license": "Apache-2.0",
@@ -20,7 +20,7 @@
         "email": "tituspijean@outlook.com"
     },
     "requirements": {
-        "yunohost": ">= 4.2.0"
+        "yunohost": ">= 4.3.0"
     },
     "multi_instance": true,
     "services": [
