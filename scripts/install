@@ -24,6 +24,7 @@ domain=$YNH_APP_ARG_DOMAIN
 path_url=$YNH_APP_ARG_PATH
 admin=$YNH_APP_ARG_ADMIN
 is_public=$YNH_APP_ARG_IS_PUBLIC
+
 app=$YNH_APP_INSTANCE_NAME
 
 #=================================================
@@ -52,15 +53,24 @@ ynh_app_setting_set --app=$app --key=path --value=$path_url
 #=================================================
 ynh_script_progression --message="Finding an available port..." --weight=1
 
-# Find a free port
+# Find an available port
 port=$(ynh_find_port --port=1880)
 ynh_app_setting_set --app=$app --key=port --value=$port
 
 #=================================================
-# INSTALL NODEJS
+# INSTALL DEPENDENCIES
 #=================================================
+ynh_script_progression --message="Installing dependencies..."
 
 ynh_install_nodejs --nodejs_version=$nodejs_version
+
+#=================================================
+# CREATE DEDICATED USER
+#=================================================
+ynh_script_progression --message="Configuring system user..." --weight=1
+
+# Create a system user
+ynh_system_user_create --username=$app --home_dir=$final_path
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -72,13 +82,15 @@ ynh_app_setting_set --app=$app --key=final_path --value=$final_path
 ynh_setup_source --dest_dir="$final_path"
 
 #=================================================
-# CREATE DEDICATED USER
+# NGINX CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring system user..." --weight=1
+ynh_script_progression --message="Configuring NGINX web server..." --weight=1
 
-# Create a system user
-ynh_system_user_create --username=$app --home_dir=$final_path
+# Create a dedicated NGINX config
+ynh_add_nginx_config
 
+#=================================================
+# SPECIFIC SETUP
 #=================================================
 # Install through npm
 #=================================================
@@ -93,16 +105,9 @@ pushd $final_path
 popd
 
 #=================================================
-# NGINX CONFIGURATION
+# ADD A CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring NGINX web server..." --weight=1
-
-# Create a dedicated NGINX config
-ynh_add_nginx_config
-
-#=================================================
-# SPECIFIC SETUP
-#=================================================
+ynh_script_progression --message="Adding a configuration file..."
 
 # Set up the settings file
 mkdir -p $final_path/data
@@ -133,8 +138,11 @@ ynh_script_progression --message="Configuring a systemd service..." --weight=1
 ynh_add_systemd_config
 
 #=================================================
-# ADVERTISE SERVICE IN ADMIN PANEL
+# GENERIC FINALIZATION
 #=================================================
+# INTEGRATE SERVICE IN YUNOHOST
+#=================================================
+ynh_script_progression --message="Integrating service in YunoHost..."
 
 yunohost service add $app --description="Low-code programming for event-driven applications"
 
@@ -184,4 +192,4 @@ ynh_systemd_action --service_name=nginx --action=reload
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Installation of Node-RED completed" --last
+ynh_script_progression --message="Installation of $app completed" --last
