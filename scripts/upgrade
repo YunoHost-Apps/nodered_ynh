@@ -215,7 +215,7 @@ chmod a-w "$final_path/data/settings.js"
 # ADVERTISE SERVICE IN ADMIN PANEL
 #=================================================
 
-yunohost service add $app --description="Low-code programming for event-driven applications" --log_type="systemd"
+yunohost service add $app --description="Low-code programming for event-driven applications"
 
 #=================================================
 # START SYSTEMD SERVICE
