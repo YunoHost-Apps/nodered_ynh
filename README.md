@@ -46,7 +46,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 You can check the default settings Yunohost generates at `data/settings.js` and find the documentation for configuring Node-RED here: https://nodered.org/docs/user-guide/runtime/configuration
 
 
-**Shipped version:** 2.1.6~ynh1
+**Shipped version:** 2.2.0~ynh1
 
 
 
