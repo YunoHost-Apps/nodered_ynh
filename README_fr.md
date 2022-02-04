@@ -25,7 +25,7 @@ Il propose un éditeur accessible dans le navigateur, qui facilite l'ébauche de
 
 ### Surcharger la configuration par défaut
 
-Depuis le répertoire d'installation, éditer le fichier `/opt/yunohost/nodered/data/settings.user.js`. Par exemple
+Depuis le répertoire d'installation, éditer le fichier `/data/settings.user.js`. Par exemple
 
 ```js
 module.exports = (defaultSettings) => ({
