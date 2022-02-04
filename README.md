@@ -28,7 +28,7 @@ It provides a browser-based editor that makes it easy to wire together flows usi
 
 ### Override the default settings
 
-From the installation directory, go edit the `data/settings.user.js`. For example:
+From the installation directory, go edit the `/opt/yunohost/nodered/data/settings.user.js`. For example:
 
 ```js
 module.exports = (defaultSettings) => ({
@@ -43,7 +43,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 });
 ```
 
-You can check the default settings Yunohost generates at `data/settings.js` and find the documentation for configuring Node-RED here: https://nodered.org/docs/user-guide/runtime/configuration
+You can check the default settings Yunohost generates at `/opt/yunohost/nodered/data/settings.js` and find the documentation for configuring Node-RED here: https://nodered.org/docs/user-guide/runtime/configuration
 
 
 **Shipped version:** 2.2.0~ynh1
