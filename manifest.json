@@ -6,7 +6,7 @@
         "en": "Flow-based programming for the Internet of Things",
         "fr": "Programmation par flux de données pour l'Internet des objets"
     },
-    "version": "3.0.1~ynh1",
+    "version": "3.0.2~ynh1",
     "url": "https://nodered.org",
     "upstream": {
         "license": "Apache-2.0",
