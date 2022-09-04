@@ -12,7 +12,8 @@
         "license": "Apache-2.0",
         "website": "https://nodered.org",
         "userdoc": "https://nodered.org/docs/",
-        "code": "https://github.com/node-red/node-red"
+        "code": "https://github.com/node-red/node-red",
+        "cpe": "cpe:2.3:a:nodered:node-red-dashboard"
     },
     "license": "MIT",
     "maintainer": {
