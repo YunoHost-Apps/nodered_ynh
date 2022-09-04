@@ -49,6 +49,7 @@ You can check the default settings Yunohost generates at `/opt/yunohost/nodered/
 **Shipped version:** 3.0.2~ynh2
 
 
+
 ## Screenshots
 
 ![Screenshot of Node-RED](./doc/screenshots/screenshot.jpg)
