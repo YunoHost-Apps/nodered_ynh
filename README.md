@@ -5,7 +5,8 @@ It shall NOT be edited by hand.
 
 # Node-RED for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![Working status](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)  
+[![Integration level](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![Working status](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+
 [![Install Node-RED with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
 *[Lire ce readme en français.](./README_fr.md)*
@@ -47,7 +48,6 @@ You can check the default settings Yunohost generates at `/opt/yunohost/nodered/
 
 
 **Shipped version:** 3.0.2~ynh2
-
 
 ## Screenshots
 
