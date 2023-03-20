@@ -6,7 +6,7 @@
         "en": "Flow-based programming for the Internet of Things",
         "fr": "Programmation par flux de données pour l'Internet des objets"
     },
-    "version": "3.0.2~ynh2",
+    "version": "3.0.2~ynh3",
     "url": "https://nodered.org",
     "upstream": {
         "license": "Apache-2.0",
@@ -15,13 +15,13 @@
         "code": "https://github.com/node-red/node-red",
         "cpe": "cpe:2.3:a:nodered:node-red-dashboard"
     },
-    "license": "MIT",
+    "license": "Apache-2.0",
     "maintainer": {
         "name": "tituspijean",
         "email": "tituspijean@outlook.com"
     },
     "requirements": {
-        "yunohost": ">= 4.3.0"
+        "yunohost": ">= 11.1.15"
     },
     "multi_instance": true,
     "services": [

@@ -5,15 +5,16 @@ It shall NOT be edited by hand.
 
 # Node-RED pour YunoHost
 
-[![Niveau d'intégration](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)  
+[![Niveau d’intégration](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+
 [![Installer Node-RED avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
 *[Read this readme in english.](./README.md)*
 
-> *Ce package vous permet d'installer Node-RED rapidement et simplement sur un serveur YunoHost.
-Si vous n'avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l'installer et en profiter.*
+> *Ce package vous permet d’installer Node-RED rapidement et simplement sur un serveur YunoHost.
+Si vous n’avez pas YunoHost, regardez [ici](https://yunohost.org/#/install) pour savoir comment l’installer et en profiter.*
 
-## Vue d'ensemble
+## Vue d’ensemble
 
 Node-RED est un outil de programmation pour connecter des appareils, API, et des services en ligne en de nouvelles et intéressantes façons.
 
@@ -49,12 +50,11 @@ module.exports = (defaultSettings) => ({
 Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `/opt/yunohost/nodered/data/settings.js` et trouver la documentation pour configurer Node-RED ici: https://nodered.org/docs/user-guide/runtime/configuration
 
 
-**Version incluse :** 3.0.2~ynh2
+**Version incluse :** 3.0.2~ynh3
 
+## Captures d’écran
 
-## Captures d'écran
-
-![Capture d'écran de Node-RED](./doc/screenshots/screenshot.jpg)
+![Capture d’écran de Node-RED](./doc/screenshots/screenshot.jpg)
 
 ## Avertissements / informations importantes
 
@@ -67,9 +67,9 @@ Si vous avez mis à jour Node-RED au-delà de la version 2, vérifiez que ces pe
 
 ## Documentations et ressources
 
-* Site officiel de l'app : <https://nodered.org>
+* Site officiel de l’app : <https://nodered.org>
 * Documentation officielle utilisateur : <https://nodered.org/docs/>
-* Dépôt de code officiel de l'app : <https://github.com/node-red/node-red>
+* Dépôt de code officiel de l’app : <https://github.com/node-red/node-red>
 * Documentation YunoHost pour cette app : <https://yunohost.org/app_nodered>
 * Signaler un bug : <https://github.com/YunoHost-Apps/nodered_ynh/issues>
 
@@ -85,4 +85,4 @@ ou
 sudo yunohost app upgrade nodered -u https://github.com/YunoHost-Apps/nodered_ynh/tree/testing --debug
 ```
 
-**Plus d'infos sur le packaging d'applications :** <https://yunohost.org/packaging_apps>
+**Plus d’infos sur le packaging d’applications :** <https://yunohost.org/packaging_apps>
