@@ -10,37 +10,10 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-#REMOVEME? ynh_script_progression --message="Loading installation settings..." --weight=1
-
-#REMOVEME? app=$YNH_APP_INSTANCE_NAME
-
-#REMOVEME? domain=$(ynh_app_setting_get --app=$app --key=domain)
-#REMOVEME? path=$(ynh_app_setting_get --app=$app --key=path)
-#REMOVEME? #REMOVEME? install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
-#REMOVEME? port=$(ynh_app_setting_get --app=$app --key=port)
-
-#=================================================
 # CHECK VERSION
 #=================================================
-ynh_script_progression --message="Checking version..."
 
 upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=5
-
-# Backup the current version of the app
-#REMOVEME? ynh_backup_before_upgrade
-#REMOVEME? ynh_clean_setup () {
-	# Restore it if the upgrade fails
-#REMOVEME? 	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-#REMOVEME? ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -107,28 +80,6 @@ elif [[ ! -f "$install_dir/data/flows.json" && -f "$install_dir/data/>>" ]]; the
 	mv "$install_dir/data/>>" "$install_dir/data/flows.json"
 fi
 
-# Remove logrotate and log directory, we use syslog now
-if [[ -d "/etc/logrotate.d/$app" ]]; then
-	ynh_remove_logrotate
-	ynh_secure_remove --file="/var/log/$app"
-fi
-
-# In older versions of the package, the port serving the webui was opened to anyone,
-# allowing direct access to Node-RED... let's close it.
-if yunohost firewall list | grep -q "\- $port$"
-then
-        ynh_script_progression --message="Closing port $port..." --weight=1
-        ynh_exec_warn_less yunohost firewall disallow TCP $port
-fi
-
-#=================================================
-# CREATE DEDICATED USER
-#=================================================
-#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
-
-# Create a dedicated user (if not existing)
-#REMOVEME? ynh_system_user_create --username=$app --home_dir=$install_dir
-
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
@@ -141,6 +92,8 @@ then
 	ynh_setup_source --dest_dir="$install_dir"
 fi
 
+chown -R $app: "$install_dir"
+
 #=================================================
 # NGINX CONFIGURATION
 #=================================================
@@ -149,30 +102,17 @@ ynh_script_progression --message="Upgrading NGINX web server configuration..." -
 # Create a dedicated NGINX config
 ynh_add_nginx_config
 
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-#REMOVEME? ynh_script_progression --message="Upgrading dependencies..."
+ynh_install_nodejs --nodejs_version=$nodejs_version
 
-#REMOVEME? if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version ]; then
-	ynh_remove_nodejs
-	ynh_install_nodejs --nodejs_version=$nodejs_version
-fi
-
-#=================================================
-# SPECIFIC UPGRADE
 #=================================================
 # Install through npm
 #=================================================
 ynh_script_progression --message="Installing Node-RED..." --weight=5
 
-ynh_use_nodejs
-
-chown -R $app: "$install_dir"
-
 pushd $install_dir
-        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
-        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
+	ynh_use_nodejs
+    ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
+    ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
 popd
 
 #=================================================
@@ -199,6 +139,8 @@ ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
 # Create a dedicated systemd config
 ynh_add_systemd_config
 
+yunohost service add $app --description="Low-code programming for event-driven applications"
+
 #=================================================
 # SECURE FILES AND DIRECTORIES
 #=================================================
@@ -211,27 +153,11 @@ chown -R $app: "$install_dir"
 chmod a-w "$install_dir/data/settings.js"
 
 #=================================================
-# GENERIC FINALIZATION
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
-
-yunohost service add $app --description="Low-code programming for event-driven applications"
-
-#=================================================
 # START SYSTEMD SERVICE
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --weight=3
 
 ynh_systemd_action --service_name=$app --action="start"
-
-#=================================================
-# RELOAD NGINX
-#=================================================
-#REMOVEME? ynh_script_progression --message="Reloading NGINX web server..." --weight=1
-
-#REMOVEME? ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
