@@ -43,19 +43,6 @@ ynh_add_systemd_config
 yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
 
 #=================================================
-# SPECIFIC SETUP
-#=================================================
-# Install through npm
-#=================================================
-ynh_script_progression --message="Installing $app..." --weight=5
-
-pushd $install_dir
-	ynh_use_nodejs
-	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
-	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
-popd
-
-#=================================================
 # ADD A CONFIGURATION
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
@@ -72,6 +59,19 @@ chown $app:$app "$install_dir/data/settings.user.js"
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
     ynh_add_config --template="../conf/flows.json" --destination="$install_dir/data/flows.json"
 fi
+
+#=================================================
+# SPECIFIC SETUP
+#=================================================
+# Install through npm
+#=================================================
+ynh_script_progression --message="Installing $app..." --weight=5
+
+pushd $install_dir
+	ynh_use_nodejs
+	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
+	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
+popd
 
 #=================================================
 # START SYSTEMD SERVICE
