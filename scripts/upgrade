@@ -65,6 +65,11 @@ ynh_add_nginx_config
 
 ynh_install_nodejs --nodejs_version=$nodejs_version
 
+# Create a dedicated systemd config
+ynh_add_systemd_config
+
+yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
+
 #=================================================
 # Install through npm
 #=================================================
@@ -83,35 +88,19 @@ ynh_script_progression --message="Updating a configuration file..."
 
 # Set up the settings file
 ynh_add_config --template="../conf/settings.js" --destination="$install_dir/data/settings.js"
+chmod 400 "$install_dir/data/settings.js"
+chown $app:$app "$install_dir/data/settings.js"
+
 if [[ ! -f "$install_dir/data/settings.user.js" ]] ; then
     ynh_add_config --template="../conf/settings.user.js" --destination="$install_dir/data/settings.user.js"
+    chmod 400 "$install_dir/data/settings.user.js"
+	chown $app:$app "$install_dir/data/settings.user.js"
 fi
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
     ynh_add_config --template="../conf/flows.json" --destination="$install_dir/data/flows.json"
 fi
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
-
-yunohost service add $app --description="Low-code programming for event-driven applications"
-
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set permissions on app files
-chmod 750 "$install_dir"
-chmod -R o-rwx "$install_dir"
-chown -R $app: "$install_dir"
-# make settings.js readonly
-chmod a-w "$install_dir/data/settings.js"
 
 #=================================================
 # START SYSTEMD SERVICE

@@ -12,7 +12,7 @@ source /usr/share/yunohost/helpers
 #=================================================
 # INSTALL DEPENDENCIES
 #=================================================
-#REMOVEME? ynh_script_progression --message="Installing dependencies..."
+ynh_script_progression --message="Installing dependencies..."
 
 ynh_install_nodejs --nodejs_version=$nodejs_version
 
@@ -23,14 +23,24 @@ ynh_script_progression --message="Setting up source files..." --weight=2
 
 # Download, check integrity, uncompress and patch the source from app.src
 ynh_setup_source --dest_dir="$install_dir"
+# Set up the settings file
+mkdir -p $install_dir/data
+
+chmod -R o-rwx "$install_dir"
+chown -R $app:www-data "$install_dir"
 
 #=================================================
-# NGINX CONFIGURATION
+# SYSTEM CONFIGURATION
 #=================================================
-ynh_script_progression --message="Configuring NGINX web server..." --weight=1
+ynh_script_progression --message="Adding system configurations related to $app..." --weight=1
 
 # Create a dedicated NGINX config
 ynh_add_nginx_config
+
+# Create a dedicated systemd config
+ynh_add_systemd_config
+
+yunohost service add $app --description="Low-code programming for event-driven applications" --log="/var/log/$app/$app.log"
 
 #=================================================
 # SPECIFIC SETUP
@@ -39,10 +49,8 @@ ynh_add_nginx_config
 #=================================================
 ynh_script_progression --message="Installing $app..." --weight=5
 
-ynh_use_nodejs
-chown -R $app: "$install_dir"
-
 pushd $install_dir
+	ynh_use_nodejs
 	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
 	ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
 popd
@@ -52,35 +60,18 @@ popd
 #=================================================
 ynh_script_progression --message="Adding a configuration file..."
 
-# Set up the settings file
-mkdir -p $install_dir/data
 ynh_add_config --template="../conf/settings.js" --destination="$install_dir/data/settings.js"
-chmod a-w "$install_dir/data/settings.js"
+chmod 400 "$install_dir/data/settings.js"
+chown $app:$app "$install_dir/data/settings.js"
 
 ynh_add_config --template="../conf/settings.user.js" --destination="$install_dir/data/settings.user.js"
+chmod 400 "$install_dir/data/settings.user.js"
+chown $app:$app "$install_dir/data/settings.user.js"
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
     ynh_add_config --template="../conf/flows.json" --destination="$install_dir/data/flows.json"
 fi
-
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-chmod 750 "$install_dir"
-chmod -R o-rwx "$install_dir"
-chown -R $app: "$install_dir"
-
-#=================================================
-# SETUP SYSTEMD
-#=================================================
-ynh_script_progression --message="Configuring a systemd service..." --weight=1
-
-# Create a dedicated systemd config
-ynh_add_systemd_config
-
-yunohost service add $app --description="Low-code programming for event-driven applications"
 
 #=================================================
 # START SYSTEMD SERVICE
