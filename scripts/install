@@ -55,6 +55,8 @@ ynh_script_progression --message="Adding a configuration file..."
 # Set up the settings file
 mkdir -p $install_dir/data
 ynh_add_config --template="../conf/settings.js" --destination="$install_dir/data/settings.js"
+chmod a-w "$install_dir/data/settings.js"
+
 ynh_add_config --template="../conf/settings.user.js" --destination="$install_dir/data/settings.user.js"
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
@@ -69,8 +71,6 @@ fi
 chmod 750 "$install_dir"
 chmod -R o-rwx "$install_dir"
 chown -R $app: "$install_dir"
-# make settings.js readonly
-chmod a-w "$install_dir/data/settings.js"
 
 #=================================================
 # SETUP SYSTEMD
@@ -88,7 +88,7 @@ yunohost service add $app --description="Low-code programming for event-driven a
 ynh_script_progression --message="Starting a systemd service..." --weight=3
 
 # Start a systemd service
-ynh_systemd_action --service_name=$app --action="start"
+ynh_systemd_action --service_name=$app --action="start" --log_path="systemd"
 
 #=================================================
 # END OF SCRIPT

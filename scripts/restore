@@ -29,7 +29,7 @@ chown -R $app: /var/log/$app
 #=================================================
 # REINSTALL DEPENDENCIES
 #=================================================
-#REMOVEME? ynh_script_progression --message="Reinstalling dependencies..."
+ynh_script_progression --message="Reinstalling dependencies..."
 
 ynh_install_nodejs --nodejs_version=$nodejs_version
 
@@ -45,7 +45,7 @@ yunohost service add $app --description="Low-code programming for event-driven a
 #=================================================
 ynh_script_progression --message="Starting a systemd service..." --weight=3
 
-ynh_systemd_action --service_name=$app --action="start"
+ynh_systemd_action --service_name=$app --action="start" --log_path="systemd"
 
 ynh_systemd_action --service_name=nginx --action=reload
 
