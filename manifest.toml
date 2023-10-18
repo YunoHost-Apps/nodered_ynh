@@ -53,7 +53,4 @@ ram.runtime = "50M"
 
     [resources.permissions]
     main.url = "/"
-    main.show_tile = true
     main.allowed = "admins"
-    ui.url = "/ui"
-    ui.show_tile= true
