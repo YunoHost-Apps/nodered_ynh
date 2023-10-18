@@ -37,7 +37,7 @@ ynh_add_nginx_config
 #=================================================
 # Install through npm
 #=================================================
-ynh_script_progression --message="Installing Node-RED..." --weight=5
+ynh_script_progression --message="Installing $app..." --weight=5
 
 ynh_use_nodejs
 chown -R $app: "$install_dir"
@@ -89,33 +89,6 @@ ynh_script_progression --message="Starting a systemd service..." --weight=3
 
 # Start a systemd service
 ynh_systemd_action --service_name=$app --action="start"
-
-#=================================================
-# SETUP SSOWAT
-#=================================================
-#REMOVEME? ynh_script_progression --message="Configuring permissions..." --weight=1
-
-# The "main" permission is automatically created before the install script.
-# Here we use it for the endpoints root, they should be world-accessible by default
-# Since it is meant for automated actions, we hide the tile from the SSO
-#REMOVEME? ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
-
-# Create the dashboard UI permission
-#REMOVEME? ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
-
-# Reuse the main permission for the admin
-#ynh_permission_url --permission="main" --url="/admin"
-#REMOVEME? ynh_permission_update --permission="main" --add="$admin" --remove="all_users" --show_tile=true
-
-# Make the dashboard public if necessary
-#REMOVEME? if [ $is_public -eq 1 ]
-#then
-#REMOVEME? 	ynh_permission_update --permission="ui" --add="visitors"
-#REMOVEME? 	ynh_permission_update --permission="endpoints" --add="visitors"
-#else
-#REMOVEME? 	ynh_permission_update --permission="ui" --add="$admin"
-#REMOVEME? 	ynh_permission_update --permission="endpoints" --add="$admin"
-#fi
 
 #=================================================
 # END OF SCRIPT
