@@ -33,12 +33,21 @@ ram.runtime = "50M"
     type = "path"
     default = "/nodered"
 
-    [install.admin]
-    type = "user"
+    [install.init_admin_permission]
+    type = "group"
+    default = "admins"
+    help.en = "Select the group which will be able to access the Node-RED Admin to edit flows. It should *not* be Visitors."
 
+    [install.init_ui_permission]
+    type = "group"
+    default = "admins"
+    ask.en = "Who should have access to the Dashboard for this app?"
+    help.en = "Select the group which will be able to access the Node-RED Dashboard. Be wary of which actions you expose if you choose Visitors."
+   
     [install.init_main_permission]
     type = "group"
     default = "visitors"
+    help.en = "Select the group which will be able to access the endpoints you create with the HTTP nodes. Be wary of which actions you expose if you choose Visitors."
 
 [resources]
         [resources.sources.main]
@@ -53,5 +62,6 @@ ram.runtime = "50M"
     [resources.ports]
 
     [resources.permissions]
+    admin.url = "/admin"
+    ui.url = "/ui"
     main.url = "/"
-    main.allowed = "admins"
