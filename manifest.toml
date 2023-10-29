@@ -36,6 +36,7 @@ ram.runtime = "50M"
     [install.init_admin_permission]
     type = "group"
     default = "admins"
+    ask.en = "Select the group which will be able to access the Node-RED Admin"
     help.en = "Select the group which will be able to access the Node-RED Admin to edit flows. It should *not* be Visitors."
 
     [install.init_ui_permission]
