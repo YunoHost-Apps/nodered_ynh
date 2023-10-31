@@ -67,7 +67,7 @@ If you have upgraded Node-RED beyond v2, check that these permissions suit you i
 * Official app website: <https://nodered.org>
 * Official user documentation: <https://nodered.org/docs/>
 * Upstream app code repository: <https://github.com/node-red/node-red>
-* YunoHost documentation for this app: <https://yunohost.org/app_nodered>
+* YunoHost Store: <https://apps.yunohost.org/app/nodered>
 * Report a bug: <https://github.com/YunoHost-Apps/nodered_ynh/issues>
 
 ## Developer info

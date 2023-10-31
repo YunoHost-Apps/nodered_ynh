@@ -70,7 +70,7 @@ Si vous avez mis à jour Node-RED au-delà de la version 2, vérifiez que ces pe
 * Site officiel de l’app : <https://nodered.org>
 * Documentation officielle utilisateur : <https://nodered.org/docs/>
 * Dépôt de code officiel de l’app : <https://github.com/node-red/node-red>
-* Documentation YunoHost pour cette app : <https://yunohost.org/app_nodered>
+* YunoHost Store: <https://apps.yunohost.org/app/nodered>
 * Signaler un bug : <https://github.com/YunoHost-Apps/nodered_ynh/issues>
 
 ## Informations pour les développeurs
