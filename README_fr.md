@@ -27,10 +27,9 @@ Il propose un éditeur accessible dans le navigateur, qui facilite l'ébauche de
 - Plus de 225 000 modules disponibles
 - Fonctions personnalisées en JavaScript
 
-
 ### Surcharger la configuration par défaut
 
-Depuis le répertoire d'installation, éditer le fichier `/opt/yunohost/nodered/data/settings.user.js`. Par exemple
+Depuis le répertoire d'installation, éditer le fichier `__INSTALL_DIR__/data/settings.user.js`. Par exemple
 
 ```js
 module.exports = (defaultSettings) => ({
@@ -47,7 +46,7 @@ module.exports = (defaultSettings) => ({
 });
 ```
 
-Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `/opt/yunohost/nodered/data/settings.js` et trouver la documentation pour configurer Node-RED ici: https://nodered.org/docs/user-guide/runtime/configuration
+Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `__INSTALL_DIR__/data/settings.js` et trouver la documentation pour configurer Node-RED ici: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
 **Version incluse :** 3.0.2~ynh4
