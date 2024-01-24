@@ -12,14 +12,14 @@ source /usr/share/yunohost/helpers
 #=================================================
 # LOAD SETTINGS
 #=================================================
-ynh_script_progression --message="Loading installation settings..." --weight=1
+#REMOVEME? ynh_script_progression --message="Loading installation settings..." --weight=1
 
-app=$YNH_APP_INSTANCE_NAME
+#REMOVEME? app=$YNH_APP_INSTANCE_NAME
 
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-port=$(ynh_app_setting_get --app=$app --key=port)
+#REMOVEME? domain=$(ynh_app_setting_get --app=$app --key=domain)
+#REMOVEME? path=$(ynh_app_setting_get --app=$app --key=path)
+#REMOVEME? #REMOVEME? install_dir=$(ynh_app_setting_get --app=$app --key=install_dir)
+#REMOVEME? port=$(ynh_app_setting_get --app=$app --key=port)
 
 #=================================================
 # CHECK VERSION
@@ -31,16 +31,16 @@ upgrade_type=$(ynh_check_app_version_changed)
 #=================================================
 # BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
 #=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=5
+#REMOVEME? ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=5
 
 # Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
+#REMOVEME? ynh_backup_before_upgrade
+#REMOVEME? ynh_clean_setup () {
 	# Restore it if the upgrade fails
-	ynh_restore_upgradebackup
+#REMOVEME? 	ynh_restore_upgradebackup
 }
 # Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
+#REMOVEME? ynh_abort_if_errors
 
 #=================================================
 # STANDARD UPGRADE STEPS
@@ -56,55 +56,55 @@ ynh_systemd_action --service_name=$app --action="stop"
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-# If final_path doesn't exist, create it
-if [ -z "$final_path" ]; then
-	final_path=/var/www/$app
-	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
+# If install_dir doesn't exist, create it
+if [ -z "$install_dir" ]; then
+#REMOVEME? 	install_dir=/var/www/$app
+#REMOVEME? 	ynh_app_setting_set --app=$app --key=install_dir --value=$install_dir
 fi
 
 # Cleaning legacy permissions
-if ynh_legacy_permissions_exists; then
-	ynh_legacy_permissions_delete_all
+#REMOVEME? if ynh_legacy_permissions_exists; then
+#REMOVEME? 	ynh_legacy_permissions_delete_all
 
 	ynh_app_setting_delete --app=$app --key=is_public
 fi
 
 # After 1.3.5~ynh2, permissions have been reworked
-if ynh_permission_exists --permission="admin"; then
+#REMOVEME? if ynh_permission_exists --permission="admin"; then
 	# Delete the admin permission
 	ynh_permission_delete --permission="admin"
 	# We use main as admin permission
         ynh_permission_url --permission="main" --url="/admin"
 fi
 
-if ! ynh_permission_exists --permission="ui"; then
+#REMOVEME? if ! ynh_permission_exists --permission="ui"; then
 	# Create ui permission, for the dashboard
-	ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
+#REMOVEME? 	ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
 fi
 
-if ! ynh_permission_exists --permission="endpoints"; then
+#REMOVEME? if ! ynh_permission_exists --permission="endpoints"; then
 	# Create endpoints permission
-	ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
+#REMOVEME? 	ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
 fi
 
 # Transfer the publicness of the app to ui and endpoints
 if ynh_permission_has_user --permission=main --user=visitors; then
-	ynh_permission_update --permission="ui" --add="visitors"
-	ynh_permission_update --permission="endpoints" --add="visitors"
+#REMOVEME? 	ynh_permission_update --permission="ui" --add="visitors"
+#REMOVEME? 	ynh_permission_update --permission="endpoints" --add="visitors"
 	# Remove visitor access to the admin panel
-	ynh_permission_update --permission="main" --remove="visitors"
+#REMOVEME? 	ynh_permission_update --permission="main" --remove="visitors"
 fi
 
 # Flows were stored in file named after the hostname.
 # Not very portable. Let's fix that.
-if [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/flows_$(hostname).json" ]]; then
-	mv "$final_path/data/flows_$(hostname)_cred.json" "$final_path/data/flows_cred.json"
-	mv "$final_path/data/flows_$(hostname).json" "$final_path/data/flows.json"
+if [[ ! -f "$install_dir/data/flows.json" && -f "$install_dir/data/flows_$(hostname).json" ]]; then
+	mv "$install_dir/data/flows_$(hostname)_cred.json" "$install_dir/data/flows_cred.json"
+	mv "$install_dir/data/flows_$(hostname).json" "$install_dir/data/flows.json"
 # Flows could be stored in a file named '>>'.
 # Definitely weird, let's fix that.
-elif [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/>>" ]]; then
-	mv "$final_path/data/>>_cred" "$final_path/data/flows_cred.json"
-	mv "$final_path/data/>>" "$final_path/data/flows.json"
+elif [[ ! -f "$install_dir/data/flows.json" && -f "$install_dir/data/>>" ]]; then
+	mv "$install_dir/data/>>_cred" "$install_dir/data/flows_cred.json"
+	mv "$install_dir/data/>>" "$install_dir/data/flows.json"
 fi
 
 # Remove logrotate and log directory, we use syslog now
@@ -124,10 +124,10 @@ fi
 #=================================================
 # CREATE DEDICATED USER
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
+#REMOVEME? ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
 
 # Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir=$final_path
+#REMOVEME? ynh_system_user_create --username=$app --home_dir=$install_dir
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -138,7 +138,7 @@ then
 	ynh_script_progression --message="Upgrading source files..." --weight=2
 
 	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
+	ynh_setup_source --dest_dir="$install_dir"
 fi
 
 #=================================================
@@ -152,9 +152,9 @@ ynh_add_nginx_config
 #=================================================
 # UPGRADE DEPENDENCIES
 #=================================================
-ynh_script_progression --message="Upgrading dependencies..."
+#REMOVEME? ynh_script_progression --message="Upgrading dependencies..."
 
-if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version ]; then
+#REMOVEME? if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version ]; then
 	ynh_remove_nodejs
 	ynh_install_nodejs --nodejs_version=$nodejs_version
 fi
@@ -168,9 +168,9 @@ ynh_script_progression --message="Installing Node-RED..." --weight=5
 
 ynh_use_nodejs
 
-chown -R $app: "$final_path"
+chown -R $app: "$install_dir"
 
-pushd $final_path
+pushd $install_dir
         ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
         ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
 popd
@@ -181,14 +181,14 @@ popd
 ynh_script_progression --message="Updating a configuration file..."
 
 # Set up the settings file
-ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
-if [[ ! -f "$final_path/data/settings.user.js" ]] ; then
-    ynh_add_config --template="../conf/settings.user.js" --destination="$final_path/data/settings.user.js"
+ynh_add_config --template="../conf/settings.js" --destination="$install_dir/data/settings.js"
+if [[ ! -f "$install_dir/data/settings.user.js" ]] ; then
+    ynh_add_config --template="../conf/settings.user.js" --destination="$install_dir/data/settings.user.js"
 fi
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
-    ynh_add_config --template="../conf/flows.json" --destination="$final_path/data/flows.json"
+    ynh_add_config --template="../conf/flows.json" --destination="$install_dir/data/flows.json"
 fi
 
 #=================================================
@@ -204,11 +204,11 @@ ynh_add_systemd_config
 #=================================================
 
 # Set permissions on app files
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app: "$final_path"
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R $app: "$install_dir"
 # make settings.js readonly
-chmod a-w "$final_path/data/settings.js"
+chmod a-w "$install_dir/data/settings.js"
 
 #=================================================
 # GENERIC FINALIZATION
@@ -229,9 +229,9 @@ ynh_systemd_action --service_name=$app --action="start"
 #=================================================
 # RELOAD NGINX
 #=================================================
-ynh_script_progression --message="Reloading NGINX web server..." --weight=1
+#REMOVEME? ynh_script_progression --message="Reloading NGINX web server..." --weight=1
 
-ynh_systemd_action --service_name=nginx --action=reload
+#REMOVEME? ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT
