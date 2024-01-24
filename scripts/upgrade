@@ -10,39 +10,6 @@ source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# LOAD SETTINGS
-#=================================================
-ynh_script_progression --message="Loading installation settings..." --weight=1
-
-app=$YNH_APP_INSTANCE_NAME
-
-domain=$(ynh_app_setting_get --app=$app --key=domain)
-path_url=$(ynh_app_setting_get --app=$app --key=path)
-final_path=$(ynh_app_setting_get --app=$app --key=final_path)
-port=$(ynh_app_setting_get --app=$app --key=port)
-
-#=================================================
-# CHECK VERSION
-#=================================================
-ynh_script_progression --message="Checking version..."
-
-upgrade_type=$(ynh_check_app_version_changed)
-
-#=================================================
-# BACKUP BEFORE UPGRADE THEN ACTIVE TRAP
-#=================================================
-ynh_script_progression --message="Backing up the app before upgrading (may take a while)..." --weight=5
-
-# Backup the current version of the app
-ynh_backup_before_upgrade
-ynh_clean_setup () {
-	# Restore it if the upgrade fails
-	ynh_restore_upgradebackup
-}
-# Exit if an error occurs during the execution of the script
-ynh_abort_if_errors
-
-#=================================================
 # STANDARD UPGRADE STEPS
 #=================================================
 # STOP SYSTEMD SERVICE
@@ -56,108 +23,48 @@ ynh_systemd_action --service_name=$app --action="stop"
 #=================================================
 ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
 
-# If final_path doesn't exist, create it
-if [ -z "$final_path" ]; then
-	final_path=/var/www/$app
-	ynh_app_setting_set --app=$app --key=final_path --value=$final_path
-fi
-
-# Cleaning legacy permissions
-if ynh_legacy_permissions_exists; then
-	ynh_legacy_permissions_delete_all
-
-	ynh_app_setting_delete --app=$app --key=is_public
-fi
-
-# After 1.3.5~ynh2, permissions have been reworked
-if ynh_permission_exists --permission="admin"; then
-	# Delete the admin permission
-	ynh_permission_delete --permission="admin"
-	# We use main as admin permission
-        ynh_permission_url --permission="main" --url="/admin"
-fi
-
-if ! ynh_permission_exists --permission="ui"; then
-	# Create ui permission, for the dashboard
-	ynh_permission_create --permission="ui" --url="/ui" --show_tile=true
-fi
-
-if ! ynh_permission_exists --permission="endpoints"; then
-	# Create endpoints permission
-	ynh_permission_create --permission="endpoints" --url="/" --show_tile=false
-fi
-
-# Transfer the publicness of the app to ui and endpoints
-if ynh_permission_has_user --permission=main --user=visitors; then
-	ynh_permission_update --permission="ui" --add="visitors"
-	ynh_permission_update --permission="endpoints" --add="visitors"
-	# Remove visitor access to the admin panel
-	ynh_permission_update --permission="main" --remove="visitors"
-fi
-
 # Flows were stored in file named after the hostname.
 # Not very portable. Let's fix that.
-if [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/flows_$(hostname).json" ]]; then
-	mv "$final_path/data/flows_$(hostname)_cred.json" "$final_path/data/flows_cred.json"
-	mv "$final_path/data/flows_$(hostname).json" "$final_path/data/flows.json"
-# Flows could be stored in a file named '>>'.
-# Definitely weird, let's fix that.
-elif [[ ! -f "$final_path/data/flows.json" && -f "$final_path/data/>>" ]]; then
-	mv "$final_path/data/>>_cred" "$final_path/data/flows_cred.json"
-	mv "$final_path/data/>>" "$final_path/data/flows.json"
+if [[ ! -f "$install_dir/data/flows.json" ]]; then
+    if [[ -f "$install_dir/data/flows_$(hostname).json" ]]; then
+        mv "$install_dir/data/flows_$(hostname)_cred.json" "$install_dir/data/flows_cred.json"
+        mv "$install_dir/data/flows_$(hostname).json" "$install_dir/data/flows.json"
+    elif [[ -f "$install_dir/data/>>" ]]; then
+        mv "$install_dir/data/>>_cred" "$install_dir/data/flows_cred.json"
+        mv "$install_dir/data/>>" "$install_dir/data/flows.json"
+    fi
 fi
 
 # Remove logrotate and log directory, we use syslog now
 if [[ -d "/etc/logrotate.d/$app" ]]; then
-	ynh_remove_logrotate
-	ynh_secure_remove --file="/var/log/$app"
+    ynh_remove_logrotate
+    ynh_secure_remove --file="/var/log/$app"
 fi
 
 # In older versions of the package, the port serving the webui was opened to anyone,
 # allowing direct access to Node-RED... let's close it.
-if yunohost firewall list | grep -q "\- $port$"
-then
-        ynh_script_progression --message="Closing port $port..." --weight=1
-        ynh_exec_warn_less yunohost firewall disallow TCP $port
+if yunohost firewall list | grep -q "\- $port$"; then
+    ynh_exec_warn_less yunohost firewall disallow TCP $port
 fi
 
 #=================================================
-# CREATE DEDICATED USER
+# UPGRADE NODEJS
 #=================================================
-ynh_script_progression --message="Making sure dedicated system user exists..." --weight=1
+ynh_script_progression --message="Upgrading NodeJS..."
 
-# Create a dedicated user (if not existing)
-ynh_system_user_create --username=$app --home_dir=$final_path
+ynh_install_nodejs --nodejs_version="$nodejs_version"
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
+ynh_script_progression --message="Upgrading source files..." --weight=2
 
-if [ "$upgrade_type" == "UPGRADE_APP" ]
-then
-	ynh_script_progression --message="Upgrading source files..." --weight=2
+# Download, check integrity, uncompress and patch the source from app.src
+ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="data"
 
-	# Download, check integrity, uncompress and patch the source from app.src
-	ynh_setup_source --dest_dir="$final_path"
-fi
-
-#=================================================
-# NGINX CONFIGURATION
-#=================================================
-ynh_script_progression --message="Upgrading NGINX web server configuration..." --weight=1
-
-# Create a dedicated NGINX config
-ynh_add_nginx_config
-
-#=================================================
-# UPGRADE DEPENDENCIES
-#=================================================
-ynh_script_progression --message="Upgrading dependencies..."
-
-if [ $(ynh_app_setting_get --app=$app --key=nodejs_version) != $nodejs_version ]; then
-	ynh_remove_nodejs
-	ynh_install_nodejs --nodejs_version=$nodejs_version
-fi
+chmod 750 "$install_dir"
+chmod -R o-rwx "$install_dir"
+chown -R "$app:www-data" "$install_dir"
 
 #=================================================
 # SPECIFIC UPGRADE
@@ -168,11 +75,9 @@ ynh_script_progression --message="Installing Node-RED..." --weight=5
 
 ynh_use_nodejs
 
-chown -R $app: "$final_path"
-
-pushd $final_path
-        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install --production
-        ynh_exec_warn_less ynh_exec_as $app $ynh_node_load_PATH $ynh_npm install node-red-dashboard
+pushd "$install_dir"
+    ynh_exec_warn_less ynh_exec_as "$app" "$ynh_node_load_PATH" "$ynh_npm" install --production
+    ynh_exec_warn_less ynh_exec_as "$app" "$ynh_node_load_PATH" "$ynh_npm" install node-red-dashboard
 popd
 
 #=================================================
@@ -181,43 +86,31 @@ popd
 ynh_script_progression --message="Updating a configuration file..."
 
 # Set up the settings file
-ynh_add_config --template="../conf/settings.js" --destination="$final_path/data/settings.js"
-if [[ ! -f "$final_path/data/settings.user.js" ]] ; then
-    ynh_add_config --template="../conf/settings.user.js" --destination="$final_path/data/settings.user.js"
+ynh_add_config --template="settings.js" --destination="$install_dir/data/settings.js"
+if [[ ! -f "$install_dir/data/settings.user.js" ]] ; then
+    ynh_add_config --template="settings.user.js" --destination="$install_dir/data/settings.user.js"
 fi
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
-    ynh_add_config --template="../conf/flows.json" --destination="$final_path/data/flows.json"
+    ynh_add_config --template="flows.json" --destination="$install_dir/data/flows.json"
 fi
 
+chmod 400 "$install_dir/data/settings.js"
+chmod -R o-rwx "$install_dir"
+chown -R "$app:www-data" "$install_dir"
+
 #=================================================
-# SETUP SYSTEMD
+# REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading systemd configuration..." --weight=1
+ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+
+# Create a dedicated NGINX config
+ynh_add_nginx_config
 
 # Create a dedicated systemd config
 ynh_add_systemd_config
-
-#=================================================
-# SECURE FILES AND DIRECTORIES
-#=================================================
-
-# Set permissions on app files
-chmod 750 "$final_path"
-chmod -R o-rwx "$final_path"
-chown -R $app: "$final_path"
-# make settings.js readonly
-chmod a-w "$final_path/data/settings.js"
-
-#=================================================
-# GENERIC FINALIZATION
-#=================================================
-# INTEGRATE SERVICE IN YUNOHOST
-#=================================================
-ynh_script_progression --message="Integrating service in YunoHost..."
-
-yunohost service add $app --description="Low-code programming for event-driven applications"
+yunohost service add "$app" --description="Low-code programming for event-driven applications"
 
 #=================================================
 # START SYSTEMD SERVICE
@@ -225,13 +118,6 @@ yunohost service add $app --description="Low-code programming for event-driven a
 ynh_script_progression --message="Starting a systemd service..." --weight=3
 
 ynh_systemd_action --service_name=$app --action="start"
-
-#=================================================
-# RELOAD NGINX
-#=================================================
-ynh_script_progression --message="Reloading NGINX web server..." --weight=1
-
-ynh_systemd_action --service_name=nginx --action=reload
 
 #=================================================
 # END OF SCRIPT

@@ -27,10 +27,9 @@ Il propose un éditeur accessible dans le navigateur, qui facilite l'ébauche de
 - Plus de 225 000 modules disponibles
 - Fonctions personnalisées en JavaScript
 
-
 ### Surcharger la configuration par défaut
 
-Depuis le répertoire d'installation, éditer le fichier `/opt/yunohost/nodered/data/settings.user.js`. Par exemple
+Depuis le répertoire d'installation, éditer le fichier `__INSTALL_DIR__/data/settings.user.js`. Par exemple
 
 ```js
 module.exports = (defaultSettings) => ({
@@ -47,23 +46,14 @@ module.exports = (defaultSettings) => ({
 });
 ```
 
-Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `/opt/yunohost/nodered/data/settings.js` et trouver la documentation pour configurer Node-RED ici: https://nodered.org/docs/user-guide/runtime/configuration
+Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `__INSTALL_DIR__/data/settings.js` et trouver la documentation pour configurer Node-RED ici: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Version incluse :** 3.0.2~ynh3
+**Version incluse :** 3.0.2~ynh4
 
 ## Captures d’écran
 
 ![Capture d’écran de Node-RED](./doc/screenshots/screenshot.jpg)
-
-## Avertissements / informations importantes
-
-Le système de permissions de YunoHost permet de paramétrer les accès à Node-RED :
-* la permission `main` protège `/admin`, l'éditeur de flux. L'administrateur est sélectionné pendant l'installation ;
-* la permisison `ui` protège `/ui`, le tableau de bord permettant de donner une interface graphique aux flux. L'accès public est défini lors de l'installation ;
-* la permission `endpoints` protège `/`, pour notamment les points d'entrée de type API. L'accès public est défini lors de l'installation.
-
-Si vous avez mis à jour Node-RED au-delà de la version 2, vérifiez que ces permissions vous conviennent dans votre panneau d'administration de YunoHost.
 
 ## Documentations et ressources
 
