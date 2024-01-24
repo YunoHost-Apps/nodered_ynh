@@ -49,12 +49,12 @@ ynh_script_progression --message="Adding a configuration file..."
 
 # Set up the settings file
 mkdir -p "$install_dir/data"
-ynh_add_config --template="../conf/settings.js" --destination="$install_dir/data/settings.js"
-ynh_add_config --template="../conf/settings.user.js" --destination="$install_dir/data/settings.user.js"
+ynh_add_config --template="settings.js" --destination="$install_dir/data/settings.js"
+ynh_add_config --template="settings.user.js" --destination="$install_dir/data/settings.user.js"
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
 if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
-    ynh_add_config --template="../conf/flows.json" --destination="$install_dir/data/flows.json"
+    ynh_add_config --template="flows.json" --destination="$install_dir/data/flows.json"
 fi
 
 chmod 400 "$install_dir/data/settings.js"
