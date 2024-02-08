@@ -49,7 +49,7 @@ module.exports = (defaultSettings) => ({
 Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `__INSTALL_DIR__/data/settings.js` et trouver la documentation pour configurer Node-RED ici: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Version incluse :** 3.0.2~ynh4
+**Version incluse :** 3.1.5~ynh1
 
 ## Captures d’écran
 
