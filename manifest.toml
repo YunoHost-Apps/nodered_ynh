@@ -48,10 +48,11 @@ ram.runtime = "70M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/node-red/node-red/archive/refs/tags/3.1.4.tar.gz"
-    sha256 = "2691084e08c8c4752a054499d849052495b0c011f0800ad20548e80db46cd999"
+    url = "https://github.com/node-red/node-red/releases/download/3.1.4/node-red-3.1.4.zip"
+    sha256 = "441c17d5a5bf6e19e2ea9eec3bc1e9af572230c47eee518c2dbb2e7374137f06"
 
     autoupdate.strategy = "latest_github_release"
+    autoupdate.asset = "node-red-.*zip"
 
     [resources.system_user]
 
