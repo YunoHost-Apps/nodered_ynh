@@ -52,6 +52,7 @@ ram.runtime = "70M"
     sha256 = "9ace97d3cf6b0be8420f9bdcc33f2c4b3d14ef09626ab0be8fdfdb9213cf3d32"
 
     autoupdate.strategy = "latest_github_release"
+    autoupdate.asset = "node-red-.*zip"
 
     [resources.system_user]
 
