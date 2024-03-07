@@ -55,11 +55,11 @@ You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/s
 
 ## Documentation and resources
 
-* Official app website: <https://nodered.org>
-* Official user documentation: <https://nodered.org/docs/>
-* Upstream app code repository: <https://github.com/node-red/node-red>
-* YunoHost Store: <https://apps.yunohost.org/app/nodered>
-* Report a bug: <https://github.com/YunoHost-Apps/nodered_ynh/issues>
+- Official app website: <https://nodered.org>
+- Official user documentation: <https://nodered.org/docs/>
+- Upstream app code repository: <https://github.com/node-red/node-red>
+- YunoHost Store: <https://apps.yunohost.org/app/nodered>
+- Report a bug: <https://github.com/YunoHost-Apps/nodered_ynh/issues>
 
 ## Developer info
 

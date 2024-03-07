@@ -57,11 +57,11 @@ Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `_
 
 ## Documentations et ressources
 
-* Site officiel de l’app : <https://nodered.org>
-* Documentation officielle utilisateur : <https://nodered.org/docs/>
-* Dépôt de code officiel de l’app : <https://github.com/node-red/node-red>
-* YunoHost Store: <https://apps.yunohost.org/app/nodered>
-* Signaler un bug : <https://github.com/YunoHost-Apps/nodered_ynh/issues>
+- Site officiel de l’app : <https://nodered.org>
+- Documentation officielle utilisateur : <https://nodered.org/docs/>
+- Dépôt de code officiel de l’app : <https://github.com/node-red/node-red>
+- YunoHost Store : <https://apps.yunohost.org/app/nodered>
+- Signaler un bug : <https://github.com/YunoHost-Apps/nodered_ynh/issues>
 
 ## Informations pour les développeurs
 
