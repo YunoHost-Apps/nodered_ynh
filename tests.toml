@@ -17,3 +17,4 @@ test_format = 1.0
     name = "3.1.4~ynh1 (update nodejs 16 to 20)"
     args.admin = "package_checker"
     args.domain = "domain.tld"
+    args.init_main_permission = "visitors"
