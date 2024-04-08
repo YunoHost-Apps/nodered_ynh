@@ -44,7 +44,7 @@ ram.runtime = "70M"
     help.en = "Should the dashboard and HTTP endpoints be publicly accessible?"
     help.fr = "Le tableau de bord et les points d'accès HTTP doivent-ils être publiquement accessibles ?"
     type = "group"
-    default = false
+    default = "visitiors"
 
 [resources]
     [resources.sources.main]
