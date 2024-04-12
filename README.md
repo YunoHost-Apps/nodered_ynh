@@ -9,7 +9,7 @@ It shall NOT be edited by hand.
 
 [![Install Node-RED with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
-*[Read this README is other languages.](./ALL_README.md)*
+*[Read this README in other languages.](./ALL_README.md)*
 
 > *This package allows you to install Node-RED quickly and simply on a YunoHost server.*  
 > *If you don't have YunoHost, please consult [the guide](https://yunohost.org/install) to learn how to install it.*
@@ -47,7 +47,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/settings.js` and find the documentation for configuring Node-RED here: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Shipped version:** 3.1.8~ynh1
+**Shipped version:** 3.1.9~ynh1
 
 ## Screenshots
 
