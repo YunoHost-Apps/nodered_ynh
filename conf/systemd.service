@@ -9,7 +9,7 @@ Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/
 Environment="__YNH_NODE_LOAD_PATH__"
 ExecStart=__YNH_NODE__ red.js -p __PORT__ -u __INSTALL_DIR__/data
-StandardOutput=syslog
+StandardOutput=journal
 StandardError=inherit
 
 # Sandboxing options to harden security
