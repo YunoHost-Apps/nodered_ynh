@@ -13,3 +13,4 @@ test_format = 1.0
     args.domain = "domain.tld"
     args.init_main_permission = "visitors"
     args.init_admin_permission = "package_checker"
+    args.admin = "package_checker"
