@@ -44,8 +44,8 @@ ram.runtime = "70M"
     default = "admins"
 
     [install.init_main_permission]
-    ask.en = "Should the dashboard and HTTP endpoints be publicly accessible?"
-    ask.fr = "Le tableau de bord et les points d'accès HTTP doivent-ils être publiquement accessibles ?"
+    help.en = "Should the dashboard and HTTP endpoints be publicly accessible?"
+    help.fr = "Le tableau de bord et les points d'accès HTTP doivent-ils être publiquement accessibles ?"
     type = "group"
     default = "visitors"
 
