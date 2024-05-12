@@ -10,7 +10,7 @@ test_format = 1.0
 
     [default.test_upgrade_from.6eb3cdb]
     name = "3.1.8~ynh1"
-    args.domain = "domain.tld"
+    args.domain = "sub.domain.tld"
     args.init_main_permission = "visitors"
     args.init_admin_permission = "package_checker"
     args.admin = "package_checker"
