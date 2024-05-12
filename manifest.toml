@@ -38,14 +38,14 @@ ram.runtime = "70M"
     default = "/nodered"
 
     [install.init_admin_permission]
-    ask.en = "Which group should be able to administer the app and edit flows?"
-    ask.fr = "Quel group devrait pouvoir adminstrer l'app et modifier des flux ?"
+    ask.en = "For example, to edit flows"
+    ask.fr = "Par exemple, pour modifier les flux"
     type = "group"
     default = "admins"
 
     [install.init_main_permission]
-    help.en = "Should the dashboard and HTTP endpoints be publicly accessible?"
-    help.fr = "Le tableau de bord et les points d'accès HTTP doivent-ils être publiquement accessibles ?"
+    help.en = "This corresponds to access to the dashboard and HTTP endpoints"
+    help.fr = "Ceci corresponds à l'accès au tableau de bord et aux points d'accès HTTP"
     type = "group"
     default = "visitors"
 
