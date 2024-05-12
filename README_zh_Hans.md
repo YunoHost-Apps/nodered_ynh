@@ -3,7 +3,7 @@
 请勿手动编辑。
 -->
 
-# YunoHost 的 Node-RED
+# YunoHost 上的 Node-RED
 
 [![集成程度](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![工作状态](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
 
