@@ -5,7 +5,7 @@ Il NE doit PAS être modifié à la main.
 
 # Node-RED pour YunoHost
 
-[![Niveau d’intégration](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Niveau d’intégration](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Statut du fonctionnement](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Statut de maintenance](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
 
 [![Installer Node-RED avec YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
@@ -49,7 +49,7 @@ module.exports = (defaultSettings) => ({
 Vous pouvez consulter les paramètres par défaut générez par Yunohost dans `__INSTALL_DIR__/data/settings.js` et trouver la documentation pour configurer Node-RED ici: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Version incluse :** 4.0.0~ynh1
+**Version incluse :** 4.0.1~ynh1
 
 ## Captures d’écran
 
