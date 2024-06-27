@@ -5,7 +5,7 @@
 
 # YunoHost 上的 Node-RED
 
-[![集成程度](https://dash.yunohost.org/integration/nodered.svg)](https://dash.yunohost.org/appci/app/nodered) ![工作状态](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![集成程度](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![工作状态](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![维护状态](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
 
 [![使用 YunoHost 安装 Node-RED](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
@@ -47,7 +47,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/settings.js` and find the documentation for configuring Node-RED here: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**分发版本：** 4.0.0~ynh1
+**分发版本：** 4.0.1~ynh1
 
 ## 截图
 
