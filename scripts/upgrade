@@ -1,27 +1,19 @@
 #!/bin/bash
 
-#=================================================
-# GENERIC START
-#=================================================
-# IMPORT GENERIC HELPERS
-#=================================================
-
 source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
-# STANDARD UPGRADE STEPS
-#=================================================
 # STOP SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Stopping a systemd service..." --weight=1
+ynh_script_progression "Stopping $app's systemd service..."
 
-ynh_systemd_action --service_name="$app" --action="stop"
+ynh_systemctl --service="$app" --action="stop"
 
 #=================================================
 # ENSURE DOWNWARD COMPATIBILITY
 #=================================================
-ynh_script_progression --message="Ensuring downward compatibility..." --weight=1
+ynh_script_progression "Ensuring downward compatibility..."
 
 # Flows were stored in file named after the hostname.
 # Not very portable. Let's fix that.
@@ -37,90 +29,84 @@ fi
 
 # Remove logrotate and log directory, we use syslog now
 if [[ -d "/etc/logrotate.d/$app" ]]; then
-    ynh_remove_logrotate
-    ynh_secure_remove --file="/var/log/$app"
+    ynh_config_remove_logrotate
+    ynh_safe_rm "/var/log/$app"
 fi
 
 # In older versions of the package, the port serving the webui was opened to anyone,
 # allowing direct access to Node-RED... let's close it.
 if yunohost firewall list | grep -q "\- $port$"; then
-    ynh_exec_warn_less yunohost firewall disallow TCP "$port"
+    ynh_hide_warnings yunohost firewall disallow TCP "$port"
 fi
 
 #=================================================
 # UPGRADE NODEJS
 #=================================================
-ynh_script_progression --message="Upgrading NodeJS..."
+ynh_script_progression "Upgrading NodeJS..."
 
-ynh_install_nodejs --nodejs_version="$nodejs_version"
+ynh_nodejs_install
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
-ynh_script_progression --message="Upgrading source files..." --weight=2
+ynh_script_progression "Upgrading source files..."
 
 # Download, check integrity, uncompress and patch the source from app.src
-ynh_setup_source --dest_dir="$install_dir" --full_replace=1 --keep="data"
+ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="data"
 
-chmod 750 "$install_dir"
-chmod -R o-rwx "$install_dir"
-chown -R "$app:www-data" "$install_dir"
-
-#=================================================
-# SPECIFIC UPGRADE
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
 #=================================================
 # Install through npm
 #=================================================
-ynh_script_progression --message="Installing Node-RED..." --weight=5
-
-ynh_use_nodejs
+ynh_script_progression "Installing Node-RED..."
 
 pushd "$install_dir"
-    ynh_exec_warn_less ynh_exec_as "$app" "$ynh_node_load_PATH" "$ynh_npm" install --production
-    ynh_exec_warn_less ynh_exec_as "$app" "$ynh_node_load_PATH" "$ynh_npm" install node-red-dashboard
+    ynh_hide_warnings ynh_exec_as_app node_load_PATH" npm install --production
+    ynh_hide_warnings ynh_exec_as_app node_load_PATH" npm install node-red-dashboard
 popd
 
 #=================================================
 # UPDATE A CONFIG FILE
 #=================================================
-ynh_script_progression --message="Updating a configuration file..."
+ynh_script_progression "Updating configuration..."
 
 # Set up the settings file
-ynh_add_config --template="settings.js" --destination="$install_dir/data/settings.js"
+ynh_config_add --template="settings.js" --destination="$install_dir/data/settings.js"
 if [[ ! -f "$install_dir/data/settings.user.js" ]] ; then
-    ynh_add_config --template="settings.user.js" --destination="$install_dir/data/settings.user.js"
+    ynh_config_add --template="settings.user.js" --destination="$install_dir/data/settings.user.js"
 fi
 
 # Small hack to have the "/" path answer with a 200 code to satisfy the CI
-if [[ "${PACKAGE_CHECK_EXEC:-}" = "1" ]] ; then
-    ynh_add_config --template="flows.json" --destination="$install_dir/data/flows.json"
+if ynh_in_ci_tests ; then
+    ynh_config_add --template="flows.json" --destination="$install_dir/data/flows.json"
 fi
 
-chmod 400 "$install_dir/data/settings.js"
-chmod -R o-rwx "$install_dir"
-chown -R "$app:www-data" "$install_dir"
-
+#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/data/settings.js"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
+#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:www-data" "$install_dir"
 #=================================================
 # REAPPLY SYSTEM CONFIGURATIONS
 #=================================================
-ynh_script_progression --message="Upgrading system configurations related to $app..." --weight=1
+ynh_script_progression "Upgrading system configurations related to $app..."
 
 # Create a dedicated NGINX config
-ynh_add_nginx_config
+ynh_config_add_nginx
 
 # Create a dedicated systemd config
-ynh_add_systemd_config
+ynh_config_add_systemd
 yunohost service add "$app" --description="Low-code programming for event-driven applications"
 
 #=================================================
 # START SYSTEMD SERVICE
 #=================================================
-ynh_script_progression --message="Starting a systemd service..." --weight=3
+ynh_script_progression "Starting $app's systemd service..."
 
-ynh_systemd_action --service_name="$app" --action="start"
+ynh_systemctl --service="$app" --action="start"
 
 #=================================================
 # END OF SCRIPT
 #=================================================
 
-ynh_script_progression --message="Upgrade of $app completed" --last
+ynh_script_progression "Upgrade of $app completed"
