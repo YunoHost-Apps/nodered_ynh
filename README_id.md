@@ -5,7 +5,9 @@ Ini TIDAK boleh diedit dengan tangan.
 
 # Node-RED untuk YunoHost
 
-[![Tingkat integrasi](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Status kerja](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Status pemeliharaan](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Tingkat integrasi](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Status kerja](https://apps.yunohost.org/badge/state/nodered)
+![Status pemeliharaan](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Pasang Node-RED dengan YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 

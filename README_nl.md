@@ -5,7 +5,9 @@ Hij mag NIET handmatig aangepast worden.
 
 # Node-RED voor Yunohost
 
-[![Integratieniveau](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Mate van functioneren](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Onderhoudsstatus](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Integratieniveau](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Mate van functioneren](https://apps.yunohost.org/badge/state/nodered)
+![Onderhoudsstatus](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Node-RED met Yunohost installeren](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 

@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Node-RED YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/nodered)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Instalatu Node-RED YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 

@@ -5,7 +5,9 @@ NON debe editarse manualmente.
 
 # Node-RED para YunoHost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Estado de funcionamento](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Estado de mantemento](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Estado de funcionamento](https://apps.yunohost.org/badge/state/nodered)
+![Estado de mantemento](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Instalar Node-RED con YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
