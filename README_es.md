@@ -5,7 +5,9 @@ No se debe editar a mano.
 
 # Node-RED para Yunohost
 
-[![Nivel de integración](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Estado funcional](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Estado En Mantención](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Nivel de integración](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Estado funcional](https://apps.yunohost.org/badge/state/nodered)
+![Estado En Mantención](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Instalar Node-RED con Yunhost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
@@ -47,7 +49,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/settings.js` and find the documentation for configuring Node-RED here: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Versión actual:** 4.0.2~ynh1
+**Versión actual:** 4.0.6~ynh1
 
 ## Capturas
 
@@ -63,7 +65,7 @@ You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/s
 
 ## Información para desarrolladores
 
-Por favor enviar sus correcciones a la [`branch testing`](https://github.com/YunoHost-Apps/nodered_ynh/tree/testing
+Por favor enviar sus correcciones a la [rama `testing`](https://github.com/YunoHost-Apps/nodered_ynh/tree/testing).
 
 Para probar la rama `testing`, sigue asÍ:
 

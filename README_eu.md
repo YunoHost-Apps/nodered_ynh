@@ -5,7 +5,9 @@ EZ editatu eskuz.
 
 # Node-RED YunoHost-erako
 
-[![Integrazio maila](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Funtzionamendu egoera](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Mantentze egoera](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Integrazio maila](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Funtzionamendu egoera](https://apps.yunohost.org/badge/state/nodered)
+![Mantentze egoera](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Instalatu Node-RED YunoHost-ekin](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
@@ -47,7 +49,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/settings.js` and find the documentation for configuring Node-RED here: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Paketatutako bertsioa:** 4.0.2~ynh1
+**Paketatutako bertsioa:** 4.0.6~ynh1
 
 ## Pantaila-argazkiak
 
