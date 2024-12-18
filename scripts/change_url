@@ -18,16 +18,10 @@ ynh_script_progression "Updating NGINX web server configuration..."
 ynh_config_change_url_nginx
 
 #=================================================
-# SPECIFIC MODIFICATIONS
-#=================================================
 # ALTERED NODERED SETTINGS FILE
 #=================================================
 
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 660 "$install_dir/data/settings.js"
 ynh_config_add --template="settings.js" --destination="$install_dir/data/settings.js"
-
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown "$app:" "$install_dir/data/settings.js"
-#REMOVEME? Assuming the file is setup using ynh_config_add, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 400 "$install_dir/data/settings.js"
 
 #=================================================
 # START SYSTEMD SERVICE

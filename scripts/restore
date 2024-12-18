@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Keep this path for calling _common.sh inside the execution's context of backup and restore scripts
 source ../settings/scripts/_common.sh
 source /usr/share/yunohost/helpers
 
@@ -18,9 +17,6 @@ ynh_script_progression "Restoring the app main directory..."
 
 ynh_restore "$install_dir"
 
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod 750 "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chmod -R o-rwx "$install_dir"
-#REMOVEME? Assuming the install dir is setup using ynh_setup_source, the proper chmod/chowns are now already applied and it shouldn't be necessary to tweak perms | chown -R "$app:" "$install_dir"
 #=================================================
 # RESTORE SYSTEM CONFIGURATIONS
 #=================================================
@@ -37,7 +33,6 @@ yunohost service add "$app" --description="Low-code programming for event-driven
 #=================================================
 ynh_script_progression "Reloading NGINX web server and $app's service..."
 
-### Typically you only have either $app or php-fpm but not both at the same time...
 ynh_systemctl --service="$app" --action="start"
 
 ynh_systemctl --service=nginx --action=reload
