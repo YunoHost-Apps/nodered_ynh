@@ -7,7 +7,7 @@ name = "Node-RED"
 description.en = "Flow-based programming for the Internet of Things"
 description.fr = "Programmation par flux de données pour l'Internet des objets"
 
-version = "4.0.9~ynh1"
+version = "4.0.9~ynh2"
 
 maintainers = ["tituspijean"]
 
