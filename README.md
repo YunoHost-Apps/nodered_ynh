@@ -5,7 +5,9 @@ It shall NOT be edited by hand.
 
 # Node-RED for YunoHost
 
-[![Integration level](https://dash.yunohost.org/integration/nodered.svg)](https://ci-apps.yunohost.org/ci/apps/nodered/) ![Working status](https://ci-apps.yunohost.org/ci/badges/nodered.status.svg) ![Maintenance status](https://ci-apps.yunohost.org/ci/badges/nodered.maintain.svg)
+[![Integration level](https://apps.yunohost.org/badge/integration/nodered)](https://ci-apps.yunohost.org/ci/apps/nodered/)
+![Working status](https://apps.yunohost.org/badge/state/nodered)
+![Maintenance status](https://apps.yunohost.org/badge/maintained/nodered)
 
 [![Install Node-RED with YunoHost](https://install-app.yunohost.org/install-with-yunohost.svg)](https://install-app.yunohost.org/?app=nodered)
 
@@ -47,7 +49,7 @@ logging: { // replace the default logging option ...defaultSettings.logging, // 
 You can check the default settings Yunohost generates at `__INSTALL_DIR__/data/settings.js` and find the documentation for configuring Node-RED here: <https://nodered.org/docs/user-guide/runtime/configuration>
 
 
-**Shipped version:** 4.0.2~ynh1
+**Shipped version:** 4.0.9~ynh2
 
 ## Screenshots
 
