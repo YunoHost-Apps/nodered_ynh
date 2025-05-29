@@ -42,6 +42,9 @@ if ynh_in_ci_tests ; then
     ynh_config_add --template="flows.json" --destination="$install_dir/data/flows.json"
 fi
 
+chmod -R o-rwx "$install_dir"
+chown -R "$app:www-data" "$install_dir"
+
 #=================================================
 # SYSTEM CONFIGURATION
 #=================================================
