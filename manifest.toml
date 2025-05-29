@@ -7,7 +7,7 @@ name = "Node-RED"
 description.en = "Flow-based programming for the Internet of Things"
 description.fr = "Programmation par flux de données pour l'Internet des objets"
 
-version = "4.0.9~ynh2"
+version = "4.0.9~ynh3"
 
 maintainers = ["tituspijean"]
 
@@ -20,11 +20,14 @@ cpe = "cpe:2.3:a:nodered:node-red"
 fund = "https://openjsf.org"
 
 [integration]
-yunohost = ">= 11.1.15"
+yunohost = ">= 12.0.9"
+helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
+
 ldap = false
 sso = false
+
 disk = "50M"
 ram.build = "300M"
 ram.runtime = "70M"

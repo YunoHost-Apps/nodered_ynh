@@ -7,8 +7,8 @@ Type=simple
 User=__APP__
 Group=__APP__
 WorkingDirectory=__INSTALL_DIR__/
-Environment="__YNH_NODE_LOAD_PATH__"
-ExecStart=__YNH_NODE__ red.js -p __PORT__ -u __INSTALL_DIR__/data
+Environment="PATH=__PATH_WITH_NODEJS__"
+ExecStart=__NODEJS_DIR__/node red.js -p __PORT__ -u __INSTALL_DIR__/data
 StandardOutput=journal
 StandardError=inherit
 
