@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source _common.sh
+
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -42,9 +42,9 @@ fi
 #=================================================
 # UPGRADE NODEJS
 #=================================================
-ynh_script_progression "Upgrading NodeJS..."
+#REMOVEME? ynh_script_progression "Upgrading NodeJS..."
 
-ynh_nodejs_install
+#REMOVEME? ynh_nodejs_install
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
@@ -56,7 +56,7 @@ ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="data"
 #=================================================
 # Install through npm
 #=================================================
-ynh_script_progression "Installing Node-RED..."
+#REMOVEME? ynh_script_progression "Installing Node-RED..."
 
 pushd "$install_dir"
     ynh_hide_warnings ynh_exec_as_app npm install --production
