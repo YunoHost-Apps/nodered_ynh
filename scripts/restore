@@ -1,14 +1,6 @@
 #!/bin/bash
 
-
 source /usr/share/yunohost/helpers
-
-#=================================================
-# REINSTALL NODEJS
-#=================================================
-#REMOVEME? ynh_script_progression "Reinstalling NodeJS..."
-
-#REMOVEME? ynh_nodejs_install
 
 #=================================================
 # RESTORE THE APP MAIN DIR

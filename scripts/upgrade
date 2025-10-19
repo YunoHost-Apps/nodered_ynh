@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -40,13 +39,6 @@ if yunohost firewall list | grep -q "\- $port$"; then
 fi
 
 #=================================================
-# UPGRADE NODEJS
-#=================================================
-#REMOVEME? ynh_script_progression "Upgrading NodeJS..."
-
-#REMOVEME? ynh_nodejs_install
-
-#=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
 #=================================================
 ynh_script_progression "Upgrading source files..."
@@ -56,7 +48,7 @@ ynh_setup_source --dest_dir="$install_dir" --full_replace --keep="data"
 #=================================================
 # Install through npm
 #=================================================
-#REMOVEME? ynh_script_progression "Installing Node-RED..."
+ynh_script_progression "Installing Node-RED..."
 
 pushd "$install_dir"
     ynh_hide_warnings ynh_exec_as_app npm install --production
