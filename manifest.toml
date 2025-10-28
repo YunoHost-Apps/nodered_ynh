@@ -7,7 +7,7 @@ name = "Node-RED"
 description.en = "Flow-based programming for the Internet of Things"
 description.fr = "Programmation par flux de données pour l'Internet des objets"
 
-version = "4.1.0~ynh1"
+version = "4.1.1~ynh1"
 
 maintainers = ["tituspijean"]
 
@@ -20,7 +20,7 @@ cpe = "cpe:2.3:a:nodered:node-red"
 fund = "https://openjsf.org"
 
 [integration]
-yunohost = ">= 12.0.9"
+yunohost = ">= 12.1.17"
 helpers_version = "2.1"
 architectures = "all"
 multi_instance = true
@@ -54,8 +54,8 @@ ram.runtime = "70M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/node-red/node-red/releases/download/4.1.0/node-red-4.1.0.zip"
-    sha256 = "61011548f20b853bff916eabd79ed585e2760d74473a286b06c2ba86b90f3609"
+    url = "https://github.com/node-red/node-red/releases/download/4.1.1/node-red-4.1.1.zip"
+    sha256 = "df68dcc1628b3636a9b4bb336ee91f589d3d4b842b650bab69c61b0223999f47"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = "node-red-.*zip"
@@ -71,3 +71,6 @@ ram.runtime = "70M"
 
     [resources.ports]
     main.default = 1880
+
+    [resources.nodejs]
+    version = "20"

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-source _common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -38,13 +37,6 @@ fi
 if yunohost firewall list | grep -q "\- $port$"; then
     ynh_hide_warnings yunohost firewall disallow TCP "$port"
 fi
-
-#=================================================
-# UPGRADE NODEJS
-#=================================================
-ynh_script_progression "Upgrading NodeJS..."
-
-ynh_nodejs_install
 
 #=================================================
 # DOWNLOAD, CHECK AND UNPACK SOURCE
