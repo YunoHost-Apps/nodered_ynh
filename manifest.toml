@@ -7,7 +7,7 @@ name = "Node-RED"
 description.en = "Flow-based programming for the Internet of Things"
 description.fr = "Programmation par flux de données pour l'Internet des objets"
 
-version = "4.1.1~ynh1"
+version = "4.1.2~ynh1"
 
 maintainers = ["tituspijean"]
 
@@ -54,8 +54,8 @@ ram.runtime = "70M"
 
 [resources]
     [resources.sources.main]
-    url = "https://github.com/node-red/node-red/releases/download/4.1.1/node-red-4.1.1.zip"
-    sha256 = "df68dcc1628b3636a9b4bb336ee91f589d3d4b842b650bab69c61b0223999f47"
+    url = "https://github.com/node-red/node-red/releases/download/4.1.2/node-red-4.1.2.zip"
+    sha256 = "869b8798963aede92cdc0195e7bdba99ca5a85dfa852d18c7fa08923dc755975"
 
     autoupdate.strategy = "latest_github_release"
     autoupdate.asset = "node-red-.*zip"
